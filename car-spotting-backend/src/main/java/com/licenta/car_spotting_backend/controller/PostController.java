@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
@@ -28,7 +29,7 @@ public class PostController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createPost(@RequestBody PostRequestDTO postRequestDTO){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //aici luam din SecurityContextHolder cine e logat la momentul actual
 
         Car car = new Car();
         car.setMake(postRequestDTO.getMake());
@@ -44,6 +45,37 @@ public class PostController {
         postRepository.save(post);
 
         return ResponseEntity.ok("Post created succesfully !");
+    }
+
+    @PutMapping("/{postID}/upvote")
+    public ResponseEntity<String> upvote(@PathVariable Long postID){
+
+        Optional<Post> optionalPost = postRepository.findById(postID); //aici verificam daca id-ul postarii din URL exista
+        if(optionalPost.isPresent()){ //daca exista
+            Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
+            post.setScore(post.getScore()+1); //incrementam scorul
+            postRepository.save(post); //salvam in repository scorul postarii caruia i-am incremetnat scorul
+
+            return ResponseEntity.ok("Like la postarea "+postID);
+        }else{
+            return ResponseEntity.status(404).body("Postarea nu a fost gasita");
+        }
+
+    }
+    @PutMapping("/{postID}/downvote")
+    public ResponseEntity<String> downvote(@PathVariable Long postID){
+
+        Optional<Post> optionalPost = postRepository.findById(postID); //aici verificam daca id-ul postarii din URL exista
+        if(optionalPost.isPresent()){ //daca exista
+            Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
+            post.setScore(post.getScore()-1); //decrementam scorul
+            postRepository.save(post); //salvam in repository scorul postarii caruia i-am incremetnat scorul
+
+            return ResponseEntity.ok("Dislike la postarea "+postID);
+        }else{
+            return ResponseEntity.status(404).body("Postarea nu a fost gasita"); //Avem o problema aici ca un utilizator poate da like sau dislike de mai multe ori,
+        }
+
     }
 
 }
