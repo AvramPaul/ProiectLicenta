@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Car-Spotting-front-end</string>
+    <string name="car_make">make</string>
+    <string name="car_model">model</string>
+    <string name="car_year">year</string>
+    <string name="create_post">create_post</string>
+</resources>

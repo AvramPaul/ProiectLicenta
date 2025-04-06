@@ -5,6 +5,7 @@ import com.licenta.car_spotting_backend.dto.RegisterRequestDTO;
 import com.licenta.car_spotting_backend.model.User;
 import com.licenta.car_spotting_backend.repository.UserRepository;
 import com.licenta.car_spotting_backend.security.JwtTokenUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,5 +45,16 @@ public class AuthController {
 
         String token = jwtTokenUtil.generateToken(user.getUsername());
         return ResponseEntity.ok(token);
+    }
+
+    public String logout(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        if(token.isEmpty())
+        {
+            System.out.println("Erai deja delog boule");
+        }else{
+            request.setAttribute("Authorization", " ");
+        }
+        return "/auth/login";
     }
 }
