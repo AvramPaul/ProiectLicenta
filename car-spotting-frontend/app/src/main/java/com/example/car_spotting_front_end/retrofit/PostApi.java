@@ -13,8 +13,8 @@ import java.util.List;
 
 public interface PostApi {
 
-    @GET("/posts/feed")
+    @GET("posts/feed")
     Call<List<Post>> getAllPosts();
     @POST("posts/create")
-    Call<String> createPost(@Body PostRequestDTO postRequestDTO);
+    Call<ApiResponse> createPost(@Body PostRequestDTO postRequestDTO);
 }

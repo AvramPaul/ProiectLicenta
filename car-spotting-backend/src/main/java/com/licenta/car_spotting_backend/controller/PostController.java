@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
+@CrossOrigin(origins = "*")
 public class PostController {
 
     @Autowired
@@ -44,7 +45,7 @@ public class PostController {
 
         postRepository.save(post);
 
-        return ResponseEntity.ok("Post created succesfully !");
+        return ResponseEntity.status(201).body("{\"message\": \"Post created successfully!\"}");
     }
 
     @PutMapping("/{postID}/upvote")

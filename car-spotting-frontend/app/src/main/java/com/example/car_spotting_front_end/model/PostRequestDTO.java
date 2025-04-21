@@ -1,14 +1,14 @@
 package com.example.car_spotting_front_end.model;
 
 public class PostRequestDTO {
-    private String usrname;
+    private String username;
     private String make;
     private String model;
     private int year;
     private byte[] image;
 
-    public PostRequestDTO(String usrname, String make, String model, int year, byte[] image) {
-        this.usrname = usrname;
+    public PostRequestDTO(String username, String make, String model, int year, byte[] image) {
+        this.username = username;
         this.make = make;
         this.model = model;
         this.year = year;
@@ -16,11 +16,11 @@ public class PostRequestDTO {
     }
 
     public String getUsrname() {
-        return usrname;
+        return username;
     }
 
     public void setUsrname(String usrname) {
-        this.usrname = usrname;
+        this.username = usrname;
     }
 
     public String getMake() {

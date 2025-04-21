@@ -6,12 +6,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.car_spotting_front_end.retrofit.ApiResponse;
 import com.example.car_spotting_front_end.retrofit.TokenManager;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 import com.example.car_spotting_front_end.model.PostRequestDTO;
 import com.example.car_spotting_front_end.retrofit.PostApi;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,28 +47,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendPostRequest() {
-        String make = inputEditMake.getText().toString();
-        String model = inputEditModel.getText().toString();
-        int year = Integer.parseInt(inputEditYear.getText().toString());
+        String make = Objects.requireNonNull(inputEditMake.getText()).toString();
+        String model = Objects.requireNonNull(inputEditModel.getText()).toString();
+        int year = Integer.parseInt(Objects.requireNonNull(inputEditYear.getText()).toString());
 
         // Username-ul trebuie preluat din sesiunea curentă (backend-ul folosește SecurityContextHolder)
         PostRequestDTO postRequestDTO = new PostRequestDTO(null, make, model, year, null);
 
         PostApi apiService = RetrofitClient.getClient(getApplicationContext()).create(PostApi.class);
-        Call<String> call = apiService.createPost(postRequestDTO);
+        Call<ApiResponse> call = apiService.createPost(postRequestDTO);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(MainActivity.this, "Postare creată!", Toast.LENGTH_SHORT).show();
                 } else {
+                    Log.e("API_RESPONSE_ERROR", "Răspuns: " + response.errorBody());
                     Toast.makeText(MainActivity.this, "Eroare la creare! " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "Eroare de rețea!", Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", "Error: " + t.getMessage());
             }

@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import com.example.car_spotting_front_end.retrofit.TokenManager;
 public class RetrofitClient {
     private static Retrofit retrofit = null;
-    private static final String JWT_TOKEN = "Bearer aici_pui_tokenul_din_Postman";
+    private static final String JWT_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQYXVsIEhvcnZhdGgiLCJpYXQiOjE3NDUyMjI3MTEsImV4cCI6MTc0NTMwOTExMX0.r5IGrmxYep0aprKBtUiJNfUkiGKTwn03c5a20COj5Ms";
     public static Retrofit getClient(Context context) {
         if (retrofit == null) {
             TokenManager tokenManager = new TokenManager(context);
