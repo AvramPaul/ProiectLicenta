@@ -1,5 +1,6 @@
 package com.example.car_spotting_front_end.retrofit;
 
+import com.example.car_spotting_front_end.activity.LoginActivity;
 import com.google.gson.Gson;
 
 import retrofit2.Retrofit;
@@ -21,19 +22,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import com.example.car_spotting_front_end.retrofit.TokenManager;
 public class RetrofitClient {
     private static Retrofit retrofit = null;
-    private static final String JWT_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQYXVsIEhvcnZhdGgiLCJpYXQiOjE3NDUyMjI3MTEsImV4cCI6MTc0NTMwOTExMX0.r5IGrmxYep0aprKBtUiJNfUkiGKTwn03c5a20COj5Ms";
+
     public static Retrofit getClient(Context context) {
         if (retrofit == null) {
             TokenManager tokenManager = new TokenManager(context);
-            String token = tokenManager.getToken(); // Obținem token-ul salvat
-
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new Interceptor() {
                         @Override
                         public Response intercept(Chain chain) throws IOException {
                             Request original = chain.request();
+                            String token = tokenManager.getToken(); // Obținem token-ul salvat
                             Request.Builder requestBuilder = original.newBuilder()
-                                    .header("Authorization", JWT_TOKEN) // Adăugăm token-ul în Header
+                                    .header("Authorization", "Bearer " + token) // Adăugăm token-ul în Header
                                     .method(original.method(), original.body());
                             return chain.proceed(requestBuilder.build());
                         }

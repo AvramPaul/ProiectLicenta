@@ -1,16 +1,17 @@
 package com.example.car_spotting_front_end;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.car_spotting_front_end.activity.LoginActivity;
 import com.example.car_spotting_front_end.retrofit.ApiResponse;
-import com.example.car_spotting_front_end.retrofit.TokenManager;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
-import com.example.car_spotting_front_end.model.PostRequestDTO;
-import com.example.car_spotting_front_end.retrofit.PostApi;
+import com.example.car_spotting_front_end.dto.PostRequestDTO;
+import com.example.car_spotting_front_end.retrofit.ApiServices;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText inputEditModel;
     private TextInputEditText inputEditYear;
     private MaterialButton buttonCreate;
+    private MaterialButton buttonLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,11 @@ public class MainActivity extends AppCompatActivity {
         inputEditModel = findViewById(R.id.form_textFieldCarModel);
         inputEditYear = findViewById(R.id.form_textFieldCarYear);
         buttonCreate = findViewById(R.id.form_buttonCreatePost);
-
+        buttonLogin = findViewById(R.id.form_buttonLogin);
+        buttonLogin.setOnClickListener(view -> {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                });
         buttonCreate.setOnClickListener(view -> {
             sendPostRequest();
         });
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         // Username-ul trebuie preluat din sesiunea curentă (backend-ul folosește SecurityContextHolder)
         PostRequestDTO postRequestDTO = new PostRequestDTO(null, make, model, year, null);
 
-        PostApi apiService = RetrofitClient.getClient(getApplicationContext()).create(PostApi.class);
+        ApiServices apiService = RetrofitClient.getClient(getApplicationContext()).create(ApiServices.class);
         Call<ApiResponse> call = apiService.createPost(postRequestDTO);
 
         call.enqueue(new Callback<ApiResponse>() {

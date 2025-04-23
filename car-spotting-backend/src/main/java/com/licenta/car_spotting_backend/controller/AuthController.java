@@ -44,7 +44,7 @@ public class AuthController {
         }
 
         String token = jwtTokenUtil.generateToken(user.getUsername());
-        return ResponseEntity.ok(token);
+        return ResponseEntity.status(200).body("{\"message\": \""+token+"\"}");
     }
 
     public String logout(HttpServletRequest request){

@@ -1,4 +1,4 @@
-package com.example.car_spotting_front_end.model;
+package com.example.car_spotting_front_end.dto;
 
 public class PostRequestDTO {
     private String username;
