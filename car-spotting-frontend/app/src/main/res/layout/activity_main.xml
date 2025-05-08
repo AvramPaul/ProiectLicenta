@@ -1,45 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="25dp"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/form_textFieldCarMake"
-        android:hint="@string/car_make"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"/>
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/form_textFieldCarModel"
-        android:hint="@string/car_model"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_height="wrap_content" />
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/form_textFieldCarYear"
-        android:hint="@string/car_year"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/form_buttonCreatePost"
-        android:text="@string/create_post"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/form_buttonLogin"
@@ -47,8 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="99dp"
-        android:layout_marginBottom="81dp"
-        android:text="@string/log_in" />
+        android:layout_marginStart="4dp"
+        android:text="@string/log_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.979" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

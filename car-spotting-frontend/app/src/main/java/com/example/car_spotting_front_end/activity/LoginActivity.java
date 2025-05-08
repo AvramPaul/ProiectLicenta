@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                     tokenManager.saveToken(token);
                     Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, CreatePostActivity.class);
                     startActivity(intent);
                     finish();
                 }else{
