@@ -1,5 +1,8 @@
 package com.licenta.car_spotting_backend.controller;
 
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import com.licenta.car_spotting_backend.dto.PostDetailsDTO;
 import com.licenta.car_spotting_backend.dto.PostRequestDTO;
 import com.licenta.car_spotting_backend.model.Car;
@@ -8,6 +11,8 @@ import com.licenta.car_spotting_backend.model.User;
 import com.licenta.car_spotting_backend.repository.PostRepository;
 import com.licenta.car_spotting_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +31,17 @@ public class PostController {
     private UserRepository userRepository;
 
     @GetMapping("/feed")
-    public List<PostDetailsDTO> getAllPosts() { return postRepository.findAllPostDetails(); }
+    public Page<PostDetailsDTO> getAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "score") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDirection){
+        Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ?
+        Sort.Direction.DESC : Sort.Direction.ASC;
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        return postRepository.findAllPostDetails(pageable);
+    }
+
 
     @PostMapping("/create")
     public ResponseEntity<String> createPost(@RequestBody PostRequestDTO postRequestDTO){

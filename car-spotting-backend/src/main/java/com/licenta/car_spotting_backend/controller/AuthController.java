@@ -24,7 +24,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestDTO registerRequestDTO){
         if(userRepository.findByUsername(registerRequestDTO.getUsername()).isPresent()){
-            return ResponseEntity.badRequest().body("Username alreay exists!");
+            return ResponseEntity.badRequest().body("{\"message\":\"Username already exists!\"}");
         }
         User user = new User(
                 registerRequestDTO.getUsername(),
@@ -32,7 +32,7 @@ public class AuthController {
                 registerRequestDTO.getEmail()
         );
         userRepository.save(user);
-        return ResponseEntity.ok("User registered succesfully");
+        return ResponseEntity.status(200).body("{\"message\":\"Account succesfully created\"}");
     }
 
     @PostMapping("/login")
