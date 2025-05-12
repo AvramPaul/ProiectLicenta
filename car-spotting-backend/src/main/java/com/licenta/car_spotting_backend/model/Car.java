@@ -14,14 +14,14 @@ public class Car {
     private String make;
     private String model;
     private int year;
-    private byte[] image;
+    private String imagePath;
 
-    public Car(Long id, String make, String model, int year, byte[] image) {
+    public Car(Long id, String make, String model, int year, String imagePath) {
         this.id = id;
         this.make = make;
         this.model = model;
         this.year = year;
-        this.image = image;
+        this.imagePath = imagePath;
     }
 
     public Car() {
@@ -59,11 +59,11 @@ public class Car {
         this.year = year;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

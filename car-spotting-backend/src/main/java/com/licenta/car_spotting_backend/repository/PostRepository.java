@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query("SELECT new com.licenta.car_spotting_backend.dto.PostDetailsDTO(p.id, u.username, c.make, c.model, c.year, c.image, p.score) " +
+    @Query("SELECT new com.licenta.car_spotting_backend.dto.PostDetailsDTO(p.id, u.username, c.make, c.model, c.year, c.imagePath, p.score) " +
             "FROM Post p " +
             "JOIN p.user u " +
             "JOIN p.car c")

@@ -30,15 +30,41 @@ public class ClassifierService {
 
             ClassifyingResponse response = new ClassifyingResponse();
 
+            // Read first line: "Audi TTS Coupe 2012"
             String line = reader.readLine();
-            response.setCarName(line);
+            if (line != null) {
+                // Split into words
+                String[] parts = line.split(" ");
+                if (parts.length >= 3) {
+                    response.setCarMake(parts[0]); // "Audi"
 
-            line = reader.readLine();
-            response.setConfidence(line);
+                    // Join the model name (could be multiple words)
+                    StringBuilder modelBuilder = new StringBuilder();
+                    for (int i = 1; i < parts.length - 1; i++) {
+                        modelBuilder.append(parts[i]).append(" ");
+                    }
+                    response.setCarModel(modelBuilder.toString().trim());
 
-//            while ((line = reader.readLine()) != null) {
-//                output.append(line).append("\n");
-//            }
+                    // Parse year
+                    try {
+                        int year = Integer.parseInt(parts[parts.length - 1]);
+                        response.setCarYear(year);
+                    } catch (NumberFormatException e) {
+                        response.setCarYear(0); // fallback or handle as needed
+                    }
+                }
+            }
+
+                line = reader.readLine();
+                if (line != null) {
+                    try {
+                        double confidenceValue = Double.parseDouble(line);
+                        response.setConfidence((int) Math.round(confidenceValue * 100));
+                    } catch (NumberFormatException e) {
+                        response.setConfidence(0); // fallback or handle as needed
+                    }
+                }
+                
 
             process.waitFor();
 

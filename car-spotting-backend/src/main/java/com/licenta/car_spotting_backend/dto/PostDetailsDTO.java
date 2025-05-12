@@ -6,16 +6,16 @@ public class PostDetailsDTO {
     private String carMake;
     private String carModel;
     private int carYear;
-    private byte[] carImage;
+    private String carImagePath;
     private float postScore;
 
-    public PostDetailsDTO(Long post_id, String userName, String carMake, String carModel, int carYear, byte[] carImage, float postScore) {
+    public PostDetailsDTO(Long post_id, String userName, String carMake, String carModel, int carYear, String carImagePath, float postScore) {
         this.post_id = post_id;
         this.userName = userName;
         this.carMake = carMake;
         this.carModel = carModel;
         this.carYear = carYear;
-        this.carImage = carImage;
+        this.carImagePath = carImagePath;
         this.postScore = postScore;
     }
 
@@ -59,12 +59,12 @@ public class PostDetailsDTO {
         this.carYear = carYear;
     }
 
-    public byte[] getCarImage() {
-        return carImage;
+    public String getCarImagePath() {
+        return carImagePath;
     }
 
-    public void setCarImage(byte[] carImage) {
-        this.carImage = carImage;
+    public void setCarImagePath(String carImagePath) {
+        this.carImagePath = carImagePath;
     }
 
     public float getPostScore() {

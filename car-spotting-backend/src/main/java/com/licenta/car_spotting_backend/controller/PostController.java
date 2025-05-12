@@ -51,7 +51,7 @@ public class PostController {
         car.setMake(postRequestDTO.getMake());
         car.setModel(postRequestDTO.getModel());
         car.setYear(postRequestDTO.getYear());
-        car.setImage(postRequestDTO.getImage());
+        car.setImagePath(null);
 
         Post post = new Post();
         post.setScore(0); // Scorul începe de la 0
