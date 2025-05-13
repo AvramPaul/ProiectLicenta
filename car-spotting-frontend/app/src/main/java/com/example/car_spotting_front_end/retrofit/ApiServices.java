@@ -17,8 +17,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiServices {
-
-
     @POST("posts/create")
     Call<ApiResponse> createPost(@Body PostRequestDTO postRequestDTO);
     @POST("auth/login")

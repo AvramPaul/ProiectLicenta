@@ -16,9 +16,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/posts")
@@ -94,4 +101,12 @@ public class PostController {
 
     }
 
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String uploadDir = "C:\\Users\\avram\\Desktop\\Model\\photoUploads\\";
+        Path path = Paths.get(uploadDir + filename);
+        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        return ResponseEntity.status(200).body("{\"message\": \"Image uploaded successfully!\"}");
+    }
 }

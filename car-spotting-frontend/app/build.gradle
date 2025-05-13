@@ -30,6 +30,7 @@ android {
 
 dependencies {
 
+    implementation libs.okhttp
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
@@ -37,8 +38,7 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-    // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
-    implementation(libs.converter.gson)
-    // https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit
-    implementation(libs.retrofit)
+    implementation libs.logging.interceptor
+    implementation libs.retrofit
+    implementation libs.converter.gson
 }

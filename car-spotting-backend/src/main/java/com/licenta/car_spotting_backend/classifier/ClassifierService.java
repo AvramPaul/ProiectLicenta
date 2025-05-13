@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -30,31 +32,61 @@ public class ClassifierService {
 
             ClassifyingResponse response = new ClassifyingResponse();
 
-            // Read first line: "Audi TTS Coupe 2012"
+            List<String> multiWordMakes = Arrays.asList(
+                    "Land Rover", "Rolls Royce", "Aston Martin", "Mini Cooper", "Alfa Romeo"
+            );
+
             String line = reader.readLine();
             if (line != null) {
-                // Split into words
-                String[] parts = line.split(" ");
-                if (parts.length >= 3) {
-                    response.setCarMake(parts[0]); // "Audi"
+                String[] words = line.split(" ");
+                String carMake = "";
+                String carModel = "";
+                int carYear = 0;
 
-                    // Join the model name (could be multiple words)
-                    StringBuilder modelBuilder = new StringBuilder();
-                    for (int i = 1; i < parts.length - 1; i++) {
-                        modelBuilder.append(parts[i]).append(" ");
-                    }
-                    response.setCarModel(modelBuilder.toString().trim());
+                // Try to match known multi-word makes first
+                for (String knownMake : multiWordMakes) {
+                    if (line.startsWith(knownMake)) {
+                        carMake = knownMake;
+                        String[] makeParts = knownMake.split(" ");
+                        int makeWordCount = makeParts.length;
 
-                    // Parse year
-                    try {
-                        int year = Integer.parseInt(parts[parts.length - 1]);
-                        response.setCarYear(year);
-                    } catch (NumberFormatException e) {
-                        response.setCarYear(0); // fallback or handle as needed
+                        // Extract model words between make and year
+                        StringBuilder modelBuilder = new StringBuilder();
+                        for (int i = makeWordCount; i < words.length - 1; i++) {
+                            modelBuilder.append(words[i]).append(" ");
+                        }
+                        carModel = modelBuilder.toString().trim();
+
+                        // Parse year
+                        try {
+                            carYear = Integer.parseInt(words[words.length - 1]);
+                        } catch (NumberFormatException e) {
+                            carYear = 0;
+                        }
+                        break;
                     }
                 }
-            }
 
+                // If no multi-word make matched, default to one-word make
+                if (carMake.isEmpty() && words.length >= 3) {
+                    carMake = words[0];
+                    StringBuilder modelBuilder = new StringBuilder();
+                    for (int i = 1; i < words.length - 1; i++) {
+                        modelBuilder.append(words[i]).append(" ");
+                    }
+                    carModel = modelBuilder.toString().trim();
+
+                    try {
+                        carYear = Integer.parseInt(words[words.length - 1]);
+                    } catch (NumberFormatException e) {
+                        carYear = 0;
+                    }
+                }
+
+                response.setCarMake(carMake);
+                response.setCarModel(carModel);
+                response.setCarYear(carYear);
+            }
                 line = reader.readLine();
                 if (line != null) {
                     try {

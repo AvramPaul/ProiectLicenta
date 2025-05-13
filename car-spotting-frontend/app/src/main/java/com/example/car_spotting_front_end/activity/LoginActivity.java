@@ -15,6 +15,7 @@ import com.example.car_spotting_front_end.retrofit.ApiResponse;
 import com.example.car_spotting_front_end.retrofit.ApiServices;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 import com.example.car_spotting_front_end.retrofit.TokenManager;
+import com.example.car_spotting_front_end.services.ImageUploadService;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     tokenManager.saveToken(token);
                     Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(LoginActivity.this, CreatePostActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, InsertImageActivity.class);
                     startActivity(intent);
                     finish();
                 }else{
