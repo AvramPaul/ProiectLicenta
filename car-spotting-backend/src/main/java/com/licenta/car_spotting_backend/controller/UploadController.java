@@ -33,7 +33,7 @@ public class UploadController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+    public ResponseEntity<ClassifyingResponse> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
 
         // Salvăm imaginea
         String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
@@ -63,6 +63,6 @@ public class UploadController {
 
         postRepository.save(post);
 
-        return ResponseEntity.status(200).body("{\"message\": \"Image uploaded successfully!\"}");
+        return ResponseEntity.ok(classifyingResponse);
     }
 }

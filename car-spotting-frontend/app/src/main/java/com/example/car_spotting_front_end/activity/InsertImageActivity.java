@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -13,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.car_spotting_front_end.R;
+import com.example.car_spotting_front_end.dto.ClassifiyngResponseDTO;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 import com.example.car_spotting_front_end.services.ImageUploadService;
 
@@ -32,6 +34,7 @@ public class InsertImageActivity extends AppCompatActivity {
     private Button uploadImageButton;
     private ImageView imagePreview;
     private Uri selectedImageUri;
+    private TextView classifierResponseText;
 
     private final ActivityResultLauncher<String> imagePickerLauncher =
             registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
@@ -53,6 +56,7 @@ public class InsertImageActivity extends AppCompatActivity {
         selectImageButton = findViewById(R.id.selectImageButton);
         uploadImageButton = findViewById(R.id.uploadImageButton);
         imagePreview = findViewById(R.id.imagePreview);
+        classifierResponseText = findViewById(R.id.classifierResponseText);
 
         selectImageButton.setOnClickListener(view -> {
             imagePickerLauncher.launch("image/*");
@@ -82,10 +86,18 @@ public class InsertImageActivity extends AppCompatActivity {
         Retrofit retrofit = RetrofitClient.getClient(this);
         ImageUploadService service = retrofit.create(ImageUploadService.class);
 
-        service.uploadImage(body).enqueue(new Callback<ResponseBody>() {
+        service.uploadImage(body).enqueue(new Callback<ClassifiyngResponseDTO>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<ClassifiyngResponseDTO> call, Response<ClassifiyngResponseDTO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ClassifiyngResponseDTO ClassifiyngResponseDTO = response.body();
+                    String responseMessage = "Car Make: " + ClassifiyngResponseDTO.getCarMake() + "\n" +
+                            "Car Model: " + ClassifiyngResponseDTO.getCarModel() + "\n" +
+                            "Car Year: " + ClassifiyngResponseDTO.getCarYear() + "\n" +
+                            "Confidence: " + ClassifiyngResponseDTO.getConfidence() + "%";
+
+                    classifierResponseText.setText(responseMessage);
+
                     Toast.makeText(InsertImageActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(InsertImageActivity.this, "Upload failed!", Toast.LENGTH_SHORT).show();
@@ -93,7 +105,7 @@ public class InsertImageActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ClassifiyngResponseDTO> call, Throwable t) {
                 Toast.makeText(InsertImageActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

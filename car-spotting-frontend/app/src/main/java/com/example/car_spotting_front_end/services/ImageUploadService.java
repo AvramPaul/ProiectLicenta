@@ -1,5 +1,7 @@
 package com.example.car_spotting_front_end.services;
 
+import com.example.car_spotting_front_end.dto.ClassifiyngResponseDTO;
+
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -11,5 +13,5 @@ public interface ImageUploadService {
 
     @Multipart
     @POST("api/upload")
-    Call<ResponseBody> uploadImage(@Part MultipartBody.Part image);
+    Call<ClassifiyngResponseDTO> uploadImage(@Part MultipartBody.Part image);
 }
