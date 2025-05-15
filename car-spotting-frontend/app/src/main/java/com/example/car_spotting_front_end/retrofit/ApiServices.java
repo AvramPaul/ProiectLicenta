@@ -1,7 +1,7 @@
 package com.example.car_spotting_front_end.retrofit;
 
 import com.example.car_spotting_front_end.dto.LoginRequestDTO;
-import com.example.car_spotting_front_end.dto.PostDetailsDTO;
+
 import com.example.car_spotting_front_end.dto.RegisterRequestDTO;
 import com.example.car_spotting_front_end.model.Post;
 import com.example.car_spotting_front_end.dto.PostRequestDTO;

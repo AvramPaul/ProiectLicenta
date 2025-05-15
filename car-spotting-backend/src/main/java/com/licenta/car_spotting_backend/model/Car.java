@@ -14,6 +14,8 @@ public class Car {
     private String make;
     private String model;
     private int year;
+
+    @Column(name = "imagePath")
     private String imagePath;
 
     public Car(Long id, String make, String model, int year, String imagePath) {

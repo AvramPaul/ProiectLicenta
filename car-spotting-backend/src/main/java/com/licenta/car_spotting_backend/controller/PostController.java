@@ -1,6 +1,9 @@
 package com.licenta.car_spotting_backend.controller;
 
 
+import com.licenta.car_spotting_backend.classifier.ClassifierService;
+import com.licenta.car_spotting_backend.model.ClassifyingResponse;
+import com.licenta.car_spotting_backend.repository.CarRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import com.licenta.car_spotting_backend.dto.PostDetailsDTO;
@@ -36,6 +39,8 @@ public class PostController {
     private PostRepository postRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ClassifierService classifierService;
 
     @GetMapping("/feed")
     public Page<PostDetailsDTO> getAllPosts(
@@ -100,13 +105,38 @@ public class PostController {
         }
 
     }
-
+/*
     @PostMapping("/upload")
     public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+
+        //Salvam Imaginea input de la Android local
         String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
         String uploadDir = "C:\\Users\\avram\\Desktop\\Model\\photoUploads\\";
         Path path = Paths.get(uploadDir + filename);
         Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        //Folosind calea imaginii apelam modelul AI pentru recunoasterea masinii
+        String encodedPath = uploadDir
+                .replace(":", "%3A")
+                .replace("\\", "%5C");
+        String fullPath = encodedPath + filename;
+        ClassifierService classifierService = new ClassifierService();
+        ClassifierController classifierController = new ClassifierController(classifierService);
+        ClassifyingResponse classifyingResponse = classifierController.classifyImage(fullPath);
+        //Folosind raspunsul modelului cream masina
+        Car car = new Car();
+        car.setImagePath(filename);
+        car.setMake(classifyingResponse.getCarMake());
+        car.setModel(classifyingResponse.getCarModel());
+        car.setYear(classifyingResponse.getCarYear());
+        //Luam userul bazandu-ne pe token
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //Acum avem toate componentele pentru a crea postarea
+        Post post = new Post();
+        post.setCar(car);
+        post.setUser(user);
+        post.setScore(0);
+        postRepository.save(post);
+
         return ResponseEntity.status(200).body("{\"message\": \"Image uploaded successfully!\"}");
-    }
+    }*/
 }
