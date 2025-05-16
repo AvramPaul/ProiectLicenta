@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,42 +10,46 @@
         android:id="@+id/selectImageButton"
         android:layout_width="237dp"
         android:layout_height="55dp"
+        android:layout_marginTop="48dp"
         android:text="Select Image"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imagePreview"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="381dp"
+        android:layout_height="379dp"
+        android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toBottomOf="@id/selectImageButton"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectImageButton" />
 
     <Button
         android:id="@+id/uploadImageButton"
         android:layout_width="274dp"
         android:layout_height="50dp"
+        android:layout_marginTop="20dp"
         android:text="Upload"
-        app:layout_constraintTop_toBottomOf="@id/imagePreview"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp" />
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imagePreview" />
+
+
     <TextView
         android:id="@+id/classifierResponseText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="12dp"
         android:gravity="center"
         android:text="Classifier Response will appear here"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/uploadImageButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/uploadImageButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

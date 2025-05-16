@@ -1,8 +1,11 @@
 package com.example.car_spotting_front_end.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ViewUtils;
 
 import com.example.car_spotting_front_end.R;
 import com.example.car_spotting_front_end.dto.ClassifiyngResponseDTO;
@@ -99,6 +103,16 @@ public class InsertImageActivity extends AppCompatActivity {
                     classifierResponseText.setText(responseMessage);
 
                     Toast.makeText(InsertImageActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
+
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(InsertImageActivity.this, FeedActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 2000); // 2000 milliseconds = 2 seconds
+
                 } else {
                     Toast.makeText(InsertImageActivity.this, "Upload failed!", Toast.LENGTH_SHORT).show();
                 }

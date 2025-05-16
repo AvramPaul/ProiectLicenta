@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText inputEditUsername;
     private TextInputEditText inputEditPassword;
     private MaterialButton buttonLogin;
+    private MaterialButton buttonRegister;
     
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -39,8 +40,14 @@ public class LoginActivity extends AppCompatActivity {
         inputEditUsername = findViewById(R.id.login_textFieldUsername);
         inputEditPassword = findViewById(R.id.login_textFieldPassword);
         buttonLogin = findViewById(R.id.login_buttonLogin);
+        buttonRegister = findViewById(R.id.buttonRegister);
         
         buttonLogin.setOnClickListener(view -> {sendLoginRequest();});
+        buttonRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void sendLoginRequest() {
