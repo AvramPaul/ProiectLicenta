@@ -1,11 +1,7 @@
 package com.licenta.car_spotting_backend.controller;
 
-
 import com.licenta.car_spotting_backend.classifier.ClassifierService;
-import com.licenta.car_spotting_backend.model.ClassifyingResponse;
-import com.licenta.car_spotting_backend.repository.CarRepository;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import com.licenta.car_spotting_backend.dto.PostDetailsDTO;
 import com.licenta.car_spotting_backend.dto.PostRequestDTO;
 import com.licenta.car_spotting_backend.model.Car;
@@ -16,19 +12,14 @@ import com.licenta.car_spotting_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/posts")
@@ -43,15 +34,22 @@ public class PostController {
     private ClassifierService classifierService;
 
     @GetMapping("/feed")
-    public Page<PostDetailsDTO> getAllPosts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "score") String sortBy,
-            @RequestParam(defaultValue = "desc") String sortDirection){
+    public ResponseEntity<PagedModel<EntityModel<PostDetailsDTO>>> getAllPosts(
+                @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "10") int size,
+                @RequestParam(defaultValue = "score") String sortBy,
+                @RequestParam(defaultValue = "desc") String sortDirection,
+                PagedResourcesAssembler<PostDetailsDTO> pagedResourcesAssembler ){
+
         Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ?
         Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
-        return postRepository.findAllPostDetails(pageable);
+        Page<PostDetailsDTO> postDetailsPage = postRepository.findAllPostDetails(pageable);
+
+        org.springframework.hateoas.PagedModel<EntityModel<PostDetailsDTO>> pagedModel = pagedResourcesAssembler.toModel(postDetailsPage);
+
+        return ResponseEntity.ok(pagedModel);
+
     }
 
 

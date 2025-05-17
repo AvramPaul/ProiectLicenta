@@ -1,49 +1,50 @@
 package com.example.car_spotting_front_end.model;
 
-public class Post  {
-    private long id;
-    private float score;
-    private Car car;
-    private User user;
-    public Post() {
+public class Post {
+    private long post_id;
+    private String userName;
+    private String carMake;
+    private String carModel;
+    private int carYear;
+    private String carImagePath;
+    private float postScore;
+
+    // Constructors, getters, and setters
+    public Post(long id, String username, String carMake, String carModel, int carYear, String imagePath, float score) {
+        this.post_id = id;
+        this.userName = username;
+        this.carMake = carMake;
+        this.carModel = carModel;
+        this.carYear = carYear;
+        this.carImagePath = imagePath;
+        this.postScore = score;
     }
 
-    public Post(long id, float score, Car car, User user) {
-        this.id = id;
-        this.score = score;
-        this.car = car;
-        this.user = user;
+    public long getPostId() {
+        return post_id;
     }
 
-    public long getId() {
-        return id;
+    public String getUsername() {
+        return userName;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public String getCarMake() {
+        return carMake;
+    }
+
+    public String getCarModel() {
+        return carModel;
+    }
+
+    public int getCarYear() {
+        return carYear;
+    }
+
+    public String getpostImagePath() {
+        return carImagePath;
     }
 
     public float getScore() {
-        return score;
-    }
-
-    public void setScore(float score) {
-        this.score = score;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+        return postScore;
     }
 }
