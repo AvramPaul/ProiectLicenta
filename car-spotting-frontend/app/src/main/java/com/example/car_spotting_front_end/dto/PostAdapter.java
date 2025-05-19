@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +36,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = posts.get(position);
+        String username = post.getUsername();
+        String initial = username != null && !username.isEmpty() ? username.substring(0, 1).toUpperCase() : "?";
+        holder.avatarTextView.setText(initial);
         holder.usernameTextView.setText(post.getUsername());
         holder.scoreTextView.setText(String.valueOf(post.getScore()));
         holder.carMakeTextView.setText(post.getCarMake());
@@ -67,7 +71,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             TextView usernameTextView, scoreTextView;
             TextView carMakeTextView, carModelTextView, carYearTextView;
             ImageView postImageView;
-            Button upvoteButton, downvoteButton;
+            ImageButton upvoteButton, downvoteButton;
+            TextView avatarTextView;
 
             public PostViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -80,6 +85,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 postImageView = itemView.findViewById(R.id.postImageView);
                 upvoteButton = itemView.findViewById(R.id.upvoteButton);
                 downvoteButton = itemView.findViewById(R.id.downvoteButton);
+                avatarTextView = itemView.findViewById(R.id.avatarTextView);
             }
         }
 }

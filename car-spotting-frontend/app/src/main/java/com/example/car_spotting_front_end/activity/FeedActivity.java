@@ -28,7 +28,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FeedActivity extends AppCompatActivity {
-    private Button createPostButton;
+   // private Button createPostButton;
     private RecyclerView feedRecyclerView;
     private PostAdapter postAdapter;
     private List<Post> postsList = new ArrayList<>();
@@ -46,16 +46,16 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     public void initializeComponents() {
-        createPostButton = findViewById(R.id.addPostButton);
+      //  createPostButton = findViewById(R.id.addPostButton);
         feedRecyclerView = findViewById(R.id.feedRecyclerView);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(postsList);
         feedRecyclerView.setAdapter(postAdapter);
 
-        createPostButton.setOnClickListener(view -> {
+        /*createPostButton.setOnClickListener(view -> {
             Intent intent = new Intent(FeedActivity.this, InsertImageActivity.class);
             startActivity(intent);
-        });
+        });*/
 
         fetchPosts(currentPage ,pageSize);
 

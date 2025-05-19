@@ -12,29 +12,54 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <!-- Username -->
-        <TextView
-            android:id="@+id/usernameTextView"
+        <LinearLayout
+            android:id="@+id/userInfoContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="USERNAME"
-            android:textStyle="bold"
-            android:textSize="16sp"
+            android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+
+            <!-- Avatar rotund cu inițială -->
+            <TextView
+                android:id="@+id/avatarTextView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="P"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bg_circle_avatar"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Numele utilizatorului -->
+            <TextView
+                android:id="@+id/usernameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USERNAME"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <!-- Photo Placeholder -->
         <ImageView
             android:id="@+id/postImageView"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:background="@android:color/darker_gray"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toBottomOf="@id/usernameTextView"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/userInfoContainer"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="H,16:9"
+            app:layout_constraintBottom_toTopOf="@id/scoreContainer"
+            />
+
 
         <!-- Score and Buttons Row -->
         <LinearLayout
@@ -47,12 +72,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <Button
+            <ImageButton
                 android:id="@+id/upvoteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="↑" />
-
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_upvote"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="upvote"
+                />
             <TextView
                 android:id="@+id/scoreTextView"
                 android:layout_width="wrap_content"
@@ -62,11 +89,13 @@
                 android:layout_marginHorizontal="8dp"
                 android:gravity="center" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/downvoteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="↓" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_downvote"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="downvote" />
         </LinearLayout>
 
         <!-- Car Info Row -->
