@@ -3,6 +3,8 @@ package com.example.car_spotting_front_end.dto;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,9 +35,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = posts.get(position);
         holder.usernameTextView.setText(post.getUsername());
-        holder.postDetailsTextView.setText(
-                post.getCarMake() + " " + post.getCarModel() + " " + post.getCarYear() + " (Score: " + post.getScore() + ")"
-        );
+        holder.scoreTextView.setText(String.valueOf(post.getScore()));
+        holder.carMakeTextView.setText(post.getCarMake());
+        holder.carModelTextView.setText(post.getCarModel());
+        holder.carYearTextView.setText(String.valueOf(post.getCarYear()));
+
+        holder.postImageView.setImageResource(R.drawable.placeholder);
+
+        // Buttons do nothing for now
+        holder.upvoteButton.setOnClickListener(v -> {
+            // To be implemented
+        });
+
+        holder.downvoteButton.setOnClickListener(v -> {
+            // To be implemented
+        });
     }
 
     @Override
@@ -43,14 +57,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return posts.size();
     }
 
-    static class PostViewHolder extends RecyclerView.ViewHolder {
-        TextView usernameTextView;
-        TextView postDetailsTextView;
+     public static class PostViewHolder extends RecyclerView.ViewHolder {
 
-        public PostViewHolder(@NonNull View itemView) {
-            super(itemView);
-            usernameTextView = itemView.findViewById(R.id.usernameTextView);
-            postDetailsTextView = itemView.findViewById(R.id.postDetailsTextView);
+            TextView usernameTextView, scoreTextView;
+            TextView carMakeTextView, carModelTextView, carYearTextView;
+            ImageView postImageView;
+            Button upvoteButton, downvoteButton;
+
+            public PostViewHolder(@NonNull View itemView) {
+                super(itemView);
+                usernameTextView = itemView.findViewById(R.id.usernameTextView);
+                postImageView = itemView.findViewById(R.id.postImageView);
+                scoreTextView = itemView.findViewById(R.id.scoreTextView);
+                carMakeTextView = itemView.findViewById(R.id.carMakeTextView);
+                carModelTextView = itemView.findViewById(R.id.carModelTextView);
+                carYearTextView = itemView.findViewById(R.id.carYearTextView);
+                postImageView = itemView.findViewById(R.id.postImageView);
+                upvoteButton = itemView.findViewById(R.id.upvoteButton);
+                downvoteButton = itemView.findViewById(R.id.downvoteButton);
+            }
         }
-    }
 }

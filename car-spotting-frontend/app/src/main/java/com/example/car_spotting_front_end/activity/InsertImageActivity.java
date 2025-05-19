@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -107,6 +108,8 @@ public class InsertImageActivity extends AppCompatActivity {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d("MainActivity", "Navigating to FeedActivity");
+                            Toast.makeText(InsertImageActivity.this, "Going to Feed", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(InsertImageActivity.this, FeedActivity.class);
                             startActivity(intent);
                             finish();
