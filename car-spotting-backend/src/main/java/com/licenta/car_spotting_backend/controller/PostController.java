@@ -1,6 +1,8 @@
 package com.licenta.car_spotting_backend.controller;
 
 import com.licenta.car_spotting_backend.classifier.ClassifierService;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
 import com.licenta.car_spotting_backend.dto.PostDetailsDTO;
 import com.licenta.car_spotting_backend.dto.PostRequestDTO;
@@ -15,10 +17,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @RestController
@@ -51,7 +57,12 @@ public class PostController {
         return ResponseEntity.ok(pagedModel);
 
     }
-
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<org.springframework.core.io.Resource> getImage(@PathVariable String filename) throws MalformedURLException {
+        Path imagePath = Paths.get("C:\\Users\\avram\\Desktop\\Model\\photoUploads\\"+filename);
+        org.springframework.core.io.Resource resource = new UrlResource(imagePath.toUri());
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<String> createPost(@RequestBody PostRequestDTO postRequestDTO){

@@ -30,6 +30,9 @@ android {
 
 dependencies {
 
+    implementation libs.glide
+    implementation libs.okhttp3.integration
+    annotationProcessor libs.compiler
     implementation libs.okhttp
     implementation libs.appcompat
     implementation libs.material

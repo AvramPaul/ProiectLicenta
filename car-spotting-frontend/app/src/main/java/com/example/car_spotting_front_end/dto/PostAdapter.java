@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.car_spotting_front_end.R;
 import com.example.car_spotting_front_end.model.Post;
 
@@ -40,7 +41,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.carModelTextView.setText(post.getCarModel());
         holder.carYearTextView.setText(String.valueOf(post.getCarYear()));
 
-        holder.postImageView.setImageResource(R.drawable.placeholder);
+        String imageUrl = "http://10.0.2.2:8081/posts/images/" + post.getpostImagePath();
+        Glide.with(holder.itemView.getContext())
+                .load(imageUrl)
+                .placeholder(R.drawable.placeholder) // imagine fallback
+                .into(holder.postImageView);
 
         // Buttons do nothing for now
         holder.upvoteButton.setOnClickListener(v -> {
