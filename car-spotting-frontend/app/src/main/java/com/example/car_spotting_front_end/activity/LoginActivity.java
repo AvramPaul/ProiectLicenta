@@ -1,6 +1,7 @@
 package com.example.car_spotting_front_end.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -66,6 +67,12 @@ public class LoginActivity extends AppCompatActivity {
                     String token = response.body().getMessage();
                     TokenManager tokenManager = new TokenManager(getApplicationContext());
                     tokenManager.saveToken(token);
+
+                    SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("logged_username", username);
+                    editor.apply();
+
                     Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(LoginActivity.this, FeedActivity.class);

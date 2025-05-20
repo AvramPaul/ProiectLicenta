@@ -15,7 +15,7 @@ public class JwtTokenUtil {
     private static final long EXPIRATION_TIME = 86400000;
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    public String generateToken(String username){ //generam un token care v-a fi trasmis atunci cand apelam api-ul uth/login de forma Authorzation : "Bearer Username" , acest token este criptat folosind HS256
+    public String generateToken(String username){ //generam un token care v-a fi trasmis atunci cand apelam api-ul auth/login de forma Authorzation : "Bearer Username" , acest token este criptat folosind HS256
         return Jwts.builder().setSubject(username).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis()+EXPIRATION_TIME)).signWith(key, SignatureAlgorithm.HS256).compact();
     }
 

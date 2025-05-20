@@ -47,14 +47,4 @@ public class AuthController {
         return ResponseEntity.status(200).body("{\"message\": \""+token+"\"}");
     }
 
-    public String logout(HttpServletRequest request){
-        String token = request.getHeader("Authorization");
-        if(token.isEmpty())
-        {
-            System.out.println("Erai deja delog boule");
-        }else{
-            request.setAttribute("Authorization", " ");
-        }
-        return "/auth/login";
-    }
 }

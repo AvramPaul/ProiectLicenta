@@ -1,8 +1,12 @@
 package com.example.car_spotting_front_end.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,14 +32,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FeedActivity extends AppCompatActivity {
-   // private Button createPostButton;
+    private LinearLayout createPostButton;
+    private LinearLayout logoutButton;
+    private TextView profilePicture;
     private RecyclerView feedRecyclerView;
     private PostAdapter postAdapter;
     private List<Post> postsList = new ArrayList<>();
     private boolean isLoading = false; // To avoid duplicate network calls
     private int currentPage = 0; // Tracks the current page
     private int pageSize = 10; // Number of items per page
+    private boolean pannelVisible = false;
 
+   private LinearLayout sidePanel;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +54,45 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     public void initializeComponents() {
-      //  createPostButton = findViewById(R.id.addPostButton);
+        createPostButton = findViewById(R.id.addPostButton);
+        logoutButton = findViewById(R.id.logoutButton);
         feedRecyclerView = findViewById(R.id.feedRecyclerView);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(postsList);
         feedRecyclerView.setAdapter(postAdapter);
+        profilePicture = findViewById(R.id.profileButton);
+        sidePanel = findViewById(R.id.sidePanel);
 
-        /*createPostButton.setOnClickListener(view -> {
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        String username = prefs.getString("logged_username", "");
+        profilePicture.setText(username.substring(0, 1));
+
+        profilePicture.setOnClickListener(view -> {
+                    if (!pannelVisible) {
+                        sidePanel.setVisibility(View.VISIBLE);
+                        sidePanel.animate().translationX(0).setDuration(300);
+                        pannelVisible = true;
+                    } else {
+                        sidePanel.animate().translationX(80).setDuration(300);
+                        sidePanel.setVisibility(View.GONE);
+                        pannelVisible = false;
+                    }
+                });
+        createPostButton.setOnClickListener(view -> {
             Intent intent = new Intent(FeedActivity.this, InsertImageActivity.class);
             startActivity(intent);
-        });*/
+        });
+
+        logoutButton.setOnClickListener(view -> {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("logged_username");
+            editor.remove("jwt_token");
+            editor.apply();
+            Intent intent = new Intent(FeedActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
 
         fetchPosts(currentPage ,pageSize);
 
