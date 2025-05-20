@@ -5,6 +5,7 @@ import com.licenta.car_spotting_backend.dto.RegisterRequestDTO;
 import com.licenta.car_spotting_backend.model.User;
 import com.licenta.car_spotting_backend.repository.UserRepository;
 import com.licenta.car_spotting_backend.security.JwtTokenUtil;
+import com.licenta.car_spotting_backend.services.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ public class AuthController {
     PasswordEncoder passwordEncoder;
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    EmailService emailService;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestDTO registerRequestDTO){
@@ -32,6 +35,9 @@ public class AuthController {
                 registerRequestDTO.getEmail()
         );
         userRepository.save(user);
+
+        emailService.sendWelcomeEmail(user.getEmail(), user.getUsername());
+
         return ResponseEntity.status(200).body("{\"message\":\"Account succesfully created\"}");
     }
 
