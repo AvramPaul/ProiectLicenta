@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 public class Post  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private float score;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id", referencedColumnName = "id", nullable = false)

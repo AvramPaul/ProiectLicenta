@@ -1,6 +1,6 @@
-package com.licenta.car_spotting_backend.classifier;
+package com.licenta.car_spotting_backend.services;
 
-import com.licenta.car_spotting_backend.model.ClassifyingResponse;
+import com.licenta.car_spotting_backend.dto.ClassifyingResponse;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;

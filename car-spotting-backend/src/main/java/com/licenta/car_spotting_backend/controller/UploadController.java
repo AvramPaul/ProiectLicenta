@@ -1,8 +1,8 @@
 package com.licenta.car_spotting_backend.controller;
 
-import com.licenta.car_spotting_backend.classifier.ClassifierService;
+import com.licenta.car_spotting_backend.services.ClassifierService;
 import com.licenta.car_spotting_backend.model.Car;
-import com.licenta.car_spotting_backend.model.ClassifyingResponse;
+import com.licenta.car_spotting_backend.dto.ClassifyingResponse;
 import com.licenta.car_spotting_backend.model.Post;
 import com.licenta.car_spotting_backend.model.User;
 import com.licenta.car_spotting_backend.repository.PostRepository;

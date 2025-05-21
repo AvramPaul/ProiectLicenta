@@ -1,7 +1,7 @@
 package com.licenta.car_spotting_backend.controller;
 
-import com.licenta.car_spotting_backend.classifier.ClassifierService;
-import com.licenta.car_spotting_backend.model.ClassifyingResponse;
+import com.licenta.car_spotting_backend.services.ClassifierService;
+import com.licenta.car_spotting_backend.dto.ClassifyingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

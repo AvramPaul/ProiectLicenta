@@ -1,7 +1,7 @@
 package com.licenta.car_spotting_backend.controller;
 
-import com.licenta.car_spotting_backend.classifier.ClassifierService;
-import org.springframework.core.io.Resource;
+import com.licenta.car_spotting_backend.services.ClassifierService;
+import com.licenta.car_spotting_backend.services.PostReactionService;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
 import com.licenta.car_spotting_backend.dto.PostDetailsDTO;
@@ -38,6 +38,15 @@ public class PostController {
     private UserRepository userRepository;
     @Autowired
     private ClassifierService classifierService;
+    @Autowired
+    private PostReactionService postReactionService;
+
+    public PostController(PostRepository postRepository, UserRepository userRepository, ClassifierService classifierService, PostReactionService postReactionService) {
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
+        this.classifierService = classifierService;
+        this.postReactionService = postReactionService;
+    }
 
     @GetMapping("/feed")
     public ResponseEntity<PagedModel<EntityModel<PostDetailsDTO>>> getAllPosts(
@@ -50,7 +59,12 @@ public class PostController {
         Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ?
         Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
-        Page<PostDetailsDTO> postDetailsPage = postRepository.findAllPostDetails(pageable);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow( () -> new RuntimeException("User not found") );
+       // User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = user.getId();
+        Page<PostDetailsDTO> postDetailsPage = postRepository.findAllPostDetailsForUser(userId, pageable);
 
         org.springframework.hateoas.PagedModel<EntityModel<PostDetailsDTO>> pagedModel = pagedResourcesAssembler.toModel(postDetailsPage);
 
@@ -88,12 +102,14 @@ public class PostController {
     public ResponseEntity<String> upvote(@PathVariable Long postID){
 
         Optional<Post> optionalPost = postRepository.findById(postID); //aici verificam daca id-ul postarii din URL exista
-        if(optionalPost.isPresent()){ //daca exista
+        if(optionalPost.isPresent()) { //daca exista
             Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
-            post.setScore(post.getScore()+1); //incrementam scorul
-            postRepository.save(post); //salvam in repository scorul postarii caruia i-am incremetnat scorul
-
-            return ResponseEntity.ok("Like la postarea "+postID);
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (postReactionService.upvotePost(post, user)){
+                return ResponseEntity.ok("Like la postarea " + postID);
+            }else{
+                return ResponseEntity.status(404).body("Postarea " + postID + " avea o reactie deja");
+            }
         }else{
             return ResponseEntity.status(404).body("Postarea nu a fost gasita");
         }
@@ -105,12 +121,15 @@ public class PostController {
         Optional<Post> optionalPost = postRepository.findById(postID); //aici verificam daca id-ul postarii din URL exista
         if(optionalPost.isPresent()){ //daca exista
             Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
-            post.setScore(post.getScore()-1); //decrementam scorul
-            postRepository.save(post); //salvam in repository scorul postarii caruia i-am incremetnat scorul
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(postReactionService.downvotePost(post, user) ){
+                return ResponseEntity.ok("Dislike la postarea "+postID);
+            }else{
+                return ResponseEntity.status(404).body("Postarea "+postID+" avea o reactie deja");
+            }
 
-            return ResponseEntity.ok("Dislike la postarea "+postID);
         }else{
-            return ResponseEntity.status(404).body("Postarea nu a fost gasita"); //Avem o problema aici ca un utilizator poate da like sau dislike de mai multe ori,
+            return ResponseEntity.status(404).body("Postarea nu a fost gasita");
         }
 
     }

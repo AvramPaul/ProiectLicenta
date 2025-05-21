@@ -1,5 +1,7 @@
 package com.licenta.car_spotting_backend.dto;
 
+import com.licenta.car_spotting_backend.enums.ReactionType;
+
 public class PostDetailsDTO {
     private Long post_id;
     private String userName;
@@ -8,8 +10,9 @@ public class PostDetailsDTO {
     private int carYear;
     private String carImagePath;
     private float postScore;
+    private ReactionType reactionType;
 
-    public PostDetailsDTO(Long post_id, String userName, String carMake, String carModel, int carYear, String carImagePath, float postScore) {
+    public PostDetailsDTO(Long post_id, String userName, String carMake, String carModel, int carYear, String carImagePath, float postScore, ReactionType reactionType) {
         this.post_id = post_id;
         this.userName = userName;
         this.carMake = carMake;
@@ -17,6 +20,15 @@ public class PostDetailsDTO {
         this.carYear = carYear;
         this.carImagePath = carImagePath;
         this.postScore = postScore;
+        this.reactionType = reactionType;
+    }
+
+    public ReactionType getReactionType() {
+        return reactionType;
+    }
+
+    public void setReactionType(ReactionType reactionType) {
+        this.reactionType = reactionType;
     }
 
     public Long getPost_id() {

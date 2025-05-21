@@ -1,4 +1,4 @@
-package com.licenta.car_spotting_backend.model;
+package com.licenta.car_spotting_backend.dto;
 
 public class ClassifyingResponse {
     private String carMake;
