@@ -58,7 +58,7 @@ public class FeedActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logoutButton);
         feedRecyclerView = findViewById(R.id.feedRecyclerView);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        postAdapter = new PostAdapter(postsList);
+        postAdapter = new PostAdapter(postsList, this);
         feedRecyclerView.setAdapter(postAdapter);
         profilePicture = findViewById(R.id.profileButton);
         sidePanel = findViewById(R.id.sidePanel);

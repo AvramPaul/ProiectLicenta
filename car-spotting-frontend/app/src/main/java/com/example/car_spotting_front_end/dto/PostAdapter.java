@@ -1,5 +1,7 @@
 package com.example.car_spotting_front_end.dto;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,22 +9,38 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.car_spotting_front_end.R;
+import com.example.car_spotting_front_end.activity.FeedActivity;
+import com.example.car_spotting_front_end.enums.ReactionType;
 import com.example.car_spotting_front_end.model.Post;
+import com.example.car_spotting_front_end.retrofit.ApiResponse;
+import com.example.car_spotting_front_end.retrofit.ApiServices;
+import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     private List<Post> posts;
+    private ApiServices apiServices;
+    private Context context;
 
-    public PostAdapter(List<Post> posts) {
+    public PostAdapter(List<Post> posts, Context context) {
         this.posts = posts;
+        this.context = context;
+        Retrofit retrofit = RetrofitClient.getClient(context);
+        apiServices = retrofit.create(ApiServices.class);
     }
 
     @NonNull
@@ -34,7 +52,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PostViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Post post = posts.get(position);
         String username = post.getUsername();
         String initial = username != null && !username.isEmpty() ? username.substring(0, 1).toUpperCase() : "?";
@@ -51,13 +69,80 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 .placeholder(R.drawable.placeholder) // imagine fallback
                 .into(holder.postImageView);
 
-        // Buttons do nothing for now
+        holder.upvoteButton.setImageResource(R.drawable.ic_upvote);
+        holder.downvoteButton.setImageResource(R.drawable.ic_downvote);
+
+        if (ReactionType.LIKE.equals(post.getReactionType())) {
+            holder.upvoteButton.setImageResource(R.drawable.ic_upvote_filled);
+        } else if (ReactionType.DISLIKE.equals(post.getReactionType())) {
+            holder.downvoteButton.setImageResource(R.drawable.ic_downvote_filled);
+        }
+
+
         holder.upvoteButton.setOnClickListener(v -> {
-            // To be implemented
+            Call<ApiResponse> call = apiServices.likePost(post.getPostId());
+            call.enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable throwable) {
+                    Toast.makeText(context, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            if (ReactionType.LIKE.equals(post.getReactionType())) {
+                post.setReactionType(null);
+                post.setPostScore(post.getScore() - 1);
+                holder.upvoteButton.setImageResource(R.drawable.ic_upvote);
+                notifyItemChanged(position);
+                return;
+            } else if (ReactionType.DISLIKE.equals(post.getReactionType())) {
+                post.setReactionType(ReactionType.LIKE);
+                post.setPostScore(post.getScore() + 2);
+                holder.upvoteButton.setImageResource(R.drawable.ic_upvote_filled);
+                holder.downvoteButton.setImageResource(R.drawable.ic_downvote);
+                notifyItemChanged(position);
+                return;
+            }
+            post.setReactionType(ReactionType.LIKE);
+            post.setPostScore(post.getScore() + 1);
+            notifyItemChanged(position);
         });
 
         holder.downvoteButton.setOnClickListener(v -> {
-            // To be implemented
+
+            Call<ApiResponse> call = apiServices.dislikePost(post.getPostId());
+            call.enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable throwable) {
+                    Toast.makeText(context, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            if (ReactionType.DISLIKE.equals(post.getReactionType())) {
+                post.setReactionType(null);
+                post.setPostScore(post.getScore() + 1);
+                holder.downvoteButton.setImageResource(R.drawable.ic_downvote);
+                notifyItemChanged(position);
+                return;
+            } else if (ReactionType.LIKE.equals(post.getReactionType())) {
+                post.setReactionType(ReactionType.DISLIKE);
+                post.setPostScore(post.getScore() - 2);
+                holder.upvoteButton.setImageResource(R.drawable.ic_upvote);
+                holder.downvoteButton.setImageResource(R.drawable.ic_downvote_filled);
+                notifyItemChanged(position);
+                return;
+            }
+            post.setReactionType(ReactionType.DISLIKE);
+            post.setPostScore(post.getScore() - 1);
+            notifyItemChanged(position);
         });
     }
 

@@ -106,12 +106,12 @@ public class PostController {
             Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (postReactionService.upvotePost(post, user)){
-                return ResponseEntity.ok("Like la postarea " + postID);
+                return ResponseEntity.status(200).body("{\"message\": \"Like la postare\"}");
             }else{
-                return ResponseEntity.status(404).body("Postarea " + postID + " avea o reactie deja");
+                return ResponseEntity.status(202).body("{\"message\": \"S-a scos like-ul de la postare\"}");
             }
         }else{
-            return ResponseEntity.status(404).body("Postarea nu a fost gasita");
+            return ResponseEntity.status(404).body("{\"message\": \"Postarea nu a fost gasita\"}");
         }
 
     }
@@ -123,13 +123,13 @@ public class PostController {
             Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(postReactionService.downvotePost(post, user) ){
-                return ResponseEntity.ok("Dislike la postarea "+postID);
+                return ResponseEntity.status(200).body("{\"message\": \"Dislike la postare\"}");
             }else{
-                return ResponseEntity.status(404).body("Postarea "+postID+" avea o reactie deja");
+                return ResponseEntity.status(200).body("{\"message\": \"S-a scos dislike-ul de la postare\"}");
             }
 
         }else{
-            return ResponseEntity.status(404).body("Postarea nu a fost gasita");
+            return ResponseEntity.status(404).body("{\"message\": \"Postarea nu a fost gasita\"}");
         }
 
     }

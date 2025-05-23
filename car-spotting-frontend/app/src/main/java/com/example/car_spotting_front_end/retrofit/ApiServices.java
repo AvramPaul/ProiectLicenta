@@ -10,6 +10,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiServices {
@@ -24,4 +26,8 @@ public interface ApiServices {
             @Query("page") int page,
             @Query("size") int size
     );
+    @PUT("posts/{postId}/upvote")
+    Call<ApiResponse> likePost(@Path("postId") long postId);
+    @PUT("posts/{postId}/downvote")
+    Call<ApiResponse> dislikePost(@Path("postId") long postId);
 }
