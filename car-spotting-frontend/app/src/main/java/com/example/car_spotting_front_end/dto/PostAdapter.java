@@ -58,7 +58,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         String initial = username != null && !username.isEmpty() ? username.substring(0, 1).toUpperCase() : "?";
         holder.avatarTextView.setText(initial);
         holder.usernameTextView.setText(post.getUsername());
-        holder.scoreTextView.setText(String.valueOf(post.getScore()));
+        holder.scoreTextView.setText(String.valueOf((int)post.getScore()));
         holder.carMakeTextView.setText(post.getCarMake());
         holder.carModelTextView.setText(post.getCarModel());
         holder.carYearTextView.setText(String.valueOf(post.getCarYear()));
