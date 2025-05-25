@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- fundal câmpuri -->
+    <color name="input_bg_dark">#333333</color>
+    <!-- contur câmpuri/focus -->
+    <color name="input_stroke_focus">#FFFFFF</color>
+    <!-- text introdus -->
+    <color name="input_text">#FFFFFF</color>
+    <!-- hint (“Username”) -->
+    <color name="input_hint">#AAAAAA</color>
 </resources>

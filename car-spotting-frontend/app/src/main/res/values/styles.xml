@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CarSpotting" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- accent/focus pentru controls (outline, ripple, etc) -->
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="colorPrimary">@color/input_bg_dark</item>
+        <!-- cursorul EditText-ului -->
+        <item name="android:textCursorDrawable">@drawable/cursor_white</item>
+    </style>
+</resources>

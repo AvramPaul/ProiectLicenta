@@ -2,10 +2,12 @@ package com.example.car_spotting_front_end.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +21,7 @@ import com.example.car_spotting_front_end.retrofit.TokenManager;
 import com.example.car_spotting_front_end.services.ImageUploadService;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText inputEditUsername;
     private TextInputEditText inputEditPassword;
     private MaterialButton buttonLogin;
-    private MaterialButton buttonRegister;
+    private MaterialTextView buttonRegister;
+    private VideoView videoView;
     
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -42,7 +46,15 @@ public class LoginActivity extends AppCompatActivity {
         inputEditPassword = findViewById(R.id.login_textFieldPassword);
         buttonLogin = findViewById(R.id.login_buttonLogin);
         buttonRegister = findViewById(R.id.buttonRegister);
-        
+        VideoView videoView = findViewById(R.id.backgroundVideoView);
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_drift_video;
+        videoView.setVideoURI(Uri.parse(videoPath));
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            mp.setVolume(0f, 0f);
+            videoView.start();
+        });
+
         buttonLogin.setOnClickListener(view -> {sendLoginRequest();});
         buttonRegister.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);

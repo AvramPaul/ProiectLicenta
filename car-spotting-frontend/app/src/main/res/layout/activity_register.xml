@@ -1,110 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- 1) VIDEO BACKGROUND -->
+    <VideoView
+        android:id="@+id/backgroundVideoView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <!-- 2) TITLE sus, centrat -->
+    <ImageView
+        android:id="@+id/titleImage"
+        android:layout_width="wrap_content"
+        android:layout_height="350dp"
+        android:src="@drawable/ic_car_spottng_title"
+        android:contentDescription="@string/app_name"
+        android:scaleX="0.8"
+        android:scaleY="0.7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
+
+    <!-- 3) FORM CONTAINER jos -->
+    <LinearLayout
+        android:id="@+id/registerFormContainer"
         android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/textRegisterTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create Account"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Email Input -->
+        <!-- Email -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:boxStrokeColor="@color/black"
+            android:hint="Email"
             app:boxBackgroundMode="outline"
-            app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+            app:boxBackgroundColor="#333333"
+            app:boxStrokeColor="#555555"
+            app:boxStrokeWidth="2dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEditEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#AAAAAA"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Username Input -->
+        <!-- Username -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:hint="Username"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/black"
-            app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+            app:boxBackgroundColor="@color/input_bg_dark"
+            app:boxStrokeColor="#555555"
+            app:boxStrokeWidth="2dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEditUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Username"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName"
+                android:textColor="@color/input_text"
+                android:textColorHint="#AAAAAA"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password Input -->
+        <!-- Password -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:passwordToggleEnabled="true"
+            android:hint="Password"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/black"
-            app:errorEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+            app:boxBackgroundColor="#333333"
+            app:boxStrokeColor="#555555"
+            app:boxStrokeWidth="2dp"
+            app:passwordToggleEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputEditPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#AAAAAA"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Register Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonRegister"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#FF0000"
             android:text="Register"
             android:textAllCaps="false"
-            android:padding="12dp"
-            app:cornerRadius="8dp"
-            android:backgroundTint="@color/design_default_color_primary"/>
+            android:textColor="#FFFFFF"
+            />
 
-        <!-- Login Button -->
-        <com.google.android.material.button.MaterialButton
+        <!-- Login Link -->
+        <TextView
             android:id="@+id/buttonLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Already have an account? Log in"
             android:textAllCaps="false"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:textColor="@color/design_default_color_primary"/>
-
+            android:textColor="#FF0000"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
-</ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
