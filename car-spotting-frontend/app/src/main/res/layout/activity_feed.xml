@@ -7,12 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".activity.FeedActivity">
 
+    <!-- Videoclip ca fundal -->
+    <VideoView
+        android:id="@+id/backgroudVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feedRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingTop="8dp"
+        android:paddingTop="7dp"
         app:layout_constraintTop_toBottomOf="@id/topBanner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +33,7 @@
         android:layout_width="85dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:background="#FF6200EE"
+        android:background="#0B0B0B"
         android:elevation="8dp"
         android:padding="8dp"
         android:visibility="gone"
@@ -39,7 +48,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/bg_purple_button"
+            android:background="#0B0B0B"
             android:padding="8dp"
             android:clickable="true"
             android:focusable="true"
@@ -65,7 +74,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/bg_purple_button"
+            android:background="#0B0B0B"
             android:padding="8dp"
             android:clickable="true"
             android:focusable="true"
@@ -89,54 +98,42 @@
     </LinearLayout>
 
     <!-- Top Banner (1cm height) -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBanner"
         android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:background="#FF6200EE"
-        android:gravity="center_vertical"
-        android:paddingTop="25dp"
+        android:layout_height="90dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="#0B0B0B"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Empty View pentru partea stanga -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
+        <!-- Titlu centrat -->
+        <ImageView
             android:id="@+id/bannerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CarSpotting"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center" />
+            android:src="@drawable/ic_car_spottng_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Spacer pentru impingerea butonului la dreapta -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
+        <!-- Profil la marginea din dreapta, cu marginEnd -->
         <TextView
             android:id="@+id/profileButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:gravity="center"
             android:text="U"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/bg_circle_avatar" />
-
-    </LinearLayout>
-
+            android:gravity="center"
+            android:background="@drawable/bg_circle_avatar"
+            android:textColor="@color/input_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

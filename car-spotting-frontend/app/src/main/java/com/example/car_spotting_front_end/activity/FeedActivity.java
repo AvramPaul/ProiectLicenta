@@ -2,12 +2,14 @@ package com.example.car_spotting_front_end.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +44,7 @@ public class FeedActivity extends AppCompatActivity {
     private int currentPage = 0; // Tracks the current page
     private int pageSize = 10; // Number of items per page
     private boolean pannelVisible = false;
+    private VideoView videoView;
 
    private LinearLayout sidePanel;
 
@@ -62,6 +65,15 @@ public class FeedActivity extends AppCompatActivity {
         feedRecyclerView.setAdapter(postAdapter);
         profilePicture = findViewById(R.id.profileButton);
         sidePanel = findViewById(R.id.sidePanel);
+
+        videoView = findViewById(R.id.backgroudVideoView);
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_mooving_video;
+        videoView.setVideoURI(Uri.parse(videoPath));
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            mp.setVolume(0f, 0f);
+            videoView.start();
+        });
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         String username = prefs.getString("logged_username", "");

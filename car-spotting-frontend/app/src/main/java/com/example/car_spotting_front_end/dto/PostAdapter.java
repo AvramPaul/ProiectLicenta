@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.car_spotting_front_end.R;
-import com.example.car_spotting_front_end.activity.FeedActivity;
 import com.example.car_spotting_front_end.enums.ReactionType;
 import com.example.car_spotting_front_end.model.Post;
 import com.example.car_spotting_front_end.retrofit.ApiResponse;
@@ -156,7 +154,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             TextView usernameTextView, scoreTextView;
             TextView carMakeTextView, carModelTextView, carYearTextView;
             ImageView postImageView;
-            ImageButton upvoteButton, downvoteButton;
+            ImageView upvoteButton, downvoteButton;
             TextView avatarTextView;
 
             public PostViewHolder(@NonNull View itemView) {

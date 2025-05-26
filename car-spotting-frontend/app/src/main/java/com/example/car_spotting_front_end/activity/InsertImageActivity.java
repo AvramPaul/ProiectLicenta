@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -22,6 +23,7 @@ import com.example.car_spotting_front_end.R;
 import com.example.car_spotting_front_end.dto.ClassifiyngResponseDTO;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 import com.example.car_spotting_front_end.services.ImageUploadService;
+import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
 
@@ -35,11 +37,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class InsertImageActivity extends AppCompatActivity {
-    private Button selectImageButton;
-    private Button uploadImageButton;
+    private MaterialButton selectImageButton;
+    private MaterialButton uploadImageButton;
     private ImageView imagePreview;
     private Uri selectedImageUri;
     private TextView classifierResponseText;
+    private VideoView videoView;
 
     private final ActivityResultLauncher<String> imagePickerLauncher =
             registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
@@ -62,6 +65,15 @@ public class InsertImageActivity extends AppCompatActivity {
         uploadImageButton = findViewById(R.id.uploadImageButton);
         imagePreview = findViewById(R.id.imagePreview);
         classifierResponseText = findViewById(R.id.classifierResponseText);
+        videoView = findViewById(R.id.backgroudVideoView);
+
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_mooving_video;
+        videoView.setVideoURI(Uri.parse(videoPath));
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            mp.setVolume(0f, 0f);
+            videoView.start();
+        });
 
         selectImageButton.setOnClickListener(view -> {
             imagePickerLauncher.launch("image/*");
