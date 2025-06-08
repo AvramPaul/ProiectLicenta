@@ -5,20 +5,17 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.car_spotting_front_end.MainActivity;
 import com.example.car_spotting_front_end.R;
 import com.example.car_spotting_front_end.dto.LoginRequestDTO;
 import com.example.car_spotting_front_end.retrofit.ApiResponse;
-import com.example.car_spotting_front_end.retrofit.ApiServices;
+import com.example.car_spotting_front_end.services.ApiServices;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 import com.example.car_spotting_front_end.retrofit.TokenManager;
-import com.example.car_spotting_front_end.services.ImageUploadService;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;

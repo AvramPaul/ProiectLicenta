@@ -1,33 +1,15 @@
 package com.example.car_spotting_front_end;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.car_spotting_front_end.activity.LoginActivity;
 import com.example.car_spotting_front_end.activity.RegisterActivity;
-import com.example.car_spotting_front_end.retrofit.ApiResponse;
-import com.example.car_spotting_front_end.retrofit.RetrofitClient;
-import com.example.car_spotting_front_end.dto.PostRequestDTO;
-import com.example.car_spotting_front_end.retrofit.ApiServices;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 

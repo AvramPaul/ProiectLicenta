@@ -17,7 +17,7 @@ public class ClassifierController {
         this.classifierService = classifierService;
     }
 
-    // Endpoint: http://localhost:8081/api/classifier/run?image=calea/catre/00001.jpg
+
     @GetMapping("/classify")
     public ClassifyingResponse classifyImage(@RequestParam("image") String imageLocation) {
         return classifierService.runPythonScript(imageLocation);

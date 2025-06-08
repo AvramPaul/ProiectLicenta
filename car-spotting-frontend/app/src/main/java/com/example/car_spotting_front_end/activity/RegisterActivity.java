@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -14,15 +13,13 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.car_spotting_front_end.R;
-import com.example.car_spotting_front_end.activity.LoginActivity;
 import com.example.car_spotting_front_end.dto.RegisterRequestDTO;
 import com.example.car_spotting_front_end.retrofit.ApiResponse;
-import com.example.car_spotting_front_end.retrofit.ApiServices;
+import com.example.car_spotting_front_end.services.ApiServices;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.textview.MaterialTextView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -140,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Username or email already in use", Toast.LENGTH_SHORT).show();
                 }
             }
 

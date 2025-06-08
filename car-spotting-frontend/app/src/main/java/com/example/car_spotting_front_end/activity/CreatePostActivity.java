@@ -1,6 +1,5 @@
 package com.example.car_spotting_front_end.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.car_spotting_front_end.R;
 import com.example.car_spotting_front_end.dto.PostRequestDTO;
 import com.example.car_spotting_front_end.retrofit.ApiResponse;
-import com.example.car_spotting_front_end.retrofit.ApiServices;
+import com.example.car_spotting_front_end.services.ApiServices;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;

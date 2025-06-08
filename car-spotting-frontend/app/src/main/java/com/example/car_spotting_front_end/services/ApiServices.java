@@ -1,10 +1,11 @@
-package com.example.car_spotting_front_end.retrofit;
+package com.example.car_spotting_front_end.services;
 
 import com.example.car_spotting_front_end.Response.PostsResponse;
 import com.example.car_spotting_front_end.dto.LoginRequestDTO;
 
 import com.example.car_spotting_front_end.dto.RegisterRequestDTO;
 import com.example.car_spotting_front_end.dto.PostRequestDTO;
+import com.example.car_spotting_front_end.retrofit.ApiResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
