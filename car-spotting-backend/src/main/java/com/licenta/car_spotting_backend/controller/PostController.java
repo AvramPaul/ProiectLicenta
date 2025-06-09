@@ -1,7 +1,9 @@
 package com.licenta.car_spotting_backend.controller;
 
+import com.licenta.car_spotting_backend.dto.JsonResponse;
 import com.licenta.car_spotting_backend.services.ClassifierService;
 import com.licenta.car_spotting_backend.services.PostReactionService;
+import com.licenta.car_spotting_backend.services.PostServices;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
 import com.licenta.car_spotting_backend.dto.PostDetailsDTO;
@@ -40,6 +42,8 @@ public class PostController {
     private ClassifierService classifierService;
     @Autowired
     private PostReactionService postReactionService;
+    @Autowired
+    private PostServices postServices;
 
     public PostController(PostRepository postRepository, UserRepository userRepository, ClassifierService classifierService, PostReactionService postReactionService) {
         this.postRepository = postRepository;
@@ -55,20 +59,19 @@ public class PostController {
                 @RequestParam(defaultValue = "score") String sortBy,
                 @RequestParam(defaultValue = "desc") String sortDirection,
                 PagedResourcesAssembler<PostDetailsDTO> pagedResourcesAssembler ){
-
+        /*
         Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ?
         Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).orElseThrow( () -> new RuntimeException("User not found") );
-       // User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = user.getId();
         Page<PostDetailsDTO> postDetailsPage = postRepository.findAllPostDetailsForUser(userId, pageable);
 
         org.springframework.hateoas.PagedModel<EntityModel<PostDetailsDTO>> pagedModel = pagedResourcesAssembler.toModel(postDetailsPage);
-
-        return ResponseEntity.ok(pagedModel);
+        */
+        return ResponseEntity.ok().body(postServices.getAllPosts(page, size, sortBy, sortDirection, pagedResourcesAssembler));
 
     }
     @GetMapping("/images/{filename}")
@@ -99,39 +102,32 @@ public class PostController {
     }
 
     @PutMapping("/{postID}/upvote")
-    public ResponseEntity<String> upvote(@PathVariable Long postID){
+    public ResponseEntity<JsonResponse> upvote(@PathVariable Long postID){
 
-        Optional<Post> optionalPost = postRepository.findById(postID); //aici verificam daca id-ul postarii din URL exista
-        if(optionalPost.isPresent()) { //daca exista
-            Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (postReactionService.upvotePost(post, user)){
-                return ResponseEntity.status(200).body("{\"message\": \"Like la postare\"}");
-            }else{
-                return ResponseEntity.status(202).body("{\"message\": \"S-a scos like-ul de la postare\"}");
-            }
+        JsonResponse response = postServices.upvotePost(postID);
+        if(response.status == 200){
+            return ResponseEntity.status(200).body(response);
+        }else if(response.status == 202){
+            return ResponseEntity.status(202).body(response);
+        }else if(response.status == 404){
+            return ResponseEntity.status(404).body(response);
         }else{
-            return ResponseEntity.status(404).body("{\"message\": \"Postarea nu a fost gasita\"}");
+            return ResponseEntity.status(500).body(response);
         }
-
     }
     @PutMapping("/{postID}/downvote")
-    public ResponseEntity<String> downvote(@PathVariable Long postID){
+    public ResponseEntity<JsonResponse> downvote(@PathVariable Long postID){
 
-        Optional<Post> optionalPost = postRepository.findById(postID); //aici verificam daca id-ul postarii din URL exista
-        if(optionalPost.isPresent()){ //daca exista
-            Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(postReactionService.downvotePost(post, user) ){
-                return ResponseEntity.status(200).body("{\"message\": \"Dislike la postare\"}");
-            }else{
-                return ResponseEntity.status(200).body("{\"message\": \"S-a scos dislike-ul de la postare\"}");
-            }
-
+        JsonResponse response = postServices.downvotePost(postID);
+        if(response.status == 200){
+            return ResponseEntity.status(200).body(response);
+        }else if (response.status == 202){
+            return ResponseEntity.status(200).body(response);
+        }else if (response.status == 404){
+            return ResponseEntity.status(404).body(response);
         }else{
-            return ResponseEntity.status(404).body("{\"message\": \"Postarea nu a fost gasita\"}");
+            return ResponseEntity.status(500).body(response);
         }
-
     }
 
 }
