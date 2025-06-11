@@ -27,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.MyPostsActivity"/>
         <activity android:name=".activity.FeedActivity"/>
         <activity android:name=".activity.InsertImageActivity"/>
         <activity android:name=".activity.LoginActivity"/>

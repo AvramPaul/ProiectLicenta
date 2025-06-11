@@ -1,6 +1,7 @@
 package com.licenta.car_spotting_backend.controller;
 
 import com.licenta.car_spotting_backend.dto.JsonResponse;
+import com.licenta.car_spotting_backend.dto.UserPostWithReactionsDTO;
 import com.licenta.car_spotting_backend.services.ClassifierService;
 import com.licenta.car_spotting_backend.services.PostReactionService;
 import com.licenta.car_spotting_backend.services.PostServices;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -59,21 +61,21 @@ public class PostController {
                 @RequestParam(defaultValue = "score") String sortBy,
                 @RequestParam(defaultValue = "desc") String sortDirection,
                 PagedResourcesAssembler<PostDetailsDTO> pagedResourcesAssembler ){
-        /*
-        Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ?
-        Sort.Direction.DESC : Sort.Direction.ASC;
-        PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username).orElseThrow( () -> new RuntimeException("User not found") );
-        Long userId = user.getId();
-        Page<PostDetailsDTO> postDetailsPage = postRepository.findAllPostDetailsForUser(userId, pageable);
-
-        org.springframework.hateoas.PagedModel<EntityModel<PostDetailsDTO>> pagedModel = pagedResourcesAssembler.toModel(postDetailsPage);
-        */
         return ResponseEntity.ok().body(postServices.getAllPosts(page, size, sortBy, sortDirection, pagedResourcesAssembler));
 
     }
+
+    @GetMapping("/myposts")
+    public ResponseEntity<List<UserPostWithReactionsDTO>> getMyPosts(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<UserPostWithReactionsDTO> posts = postServices.getUserPosts(user.getId());
+
+        return ResponseEntity.ok().body(posts);
+    }
+
     @GetMapping("/images/{filename}")
     public ResponseEntity<org.springframework.core.io.Resource> getImage(@PathVariable String filename) throws MalformedURLException {
         Path imagePath = Paths.get("C:\\Users\\avram\\Desktop\\Model\\photoUploads\\"+filename);

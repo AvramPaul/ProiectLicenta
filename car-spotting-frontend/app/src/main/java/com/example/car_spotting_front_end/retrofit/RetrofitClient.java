@@ -12,6 +12,7 @@ import android.content.Context;
 import com.example.car_spotting_front_end.retrofit.TokenManager;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -38,6 +39,9 @@ public class RetrofitClient {
                             return chain.proceed(requestBuilder.build());
                         }
                     })
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .writeTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()

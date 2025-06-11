@@ -33,6 +33,7 @@ import retrofit2.Retrofit;
 public class FeedActivity extends AppCompatActivity {
     private LinearLayout createPostButton;
     private LinearLayout logoutButton;
+    private LinearLayout myPostsButton;
     private TextView profilePicture;
     private RecyclerView feedRecyclerView;
     private PostAdapter postAdapter;
@@ -56,6 +57,7 @@ public class FeedActivity extends AppCompatActivity {
     public void initializeComponents() {
         createPostButton = findViewById(R.id.addPostButton);
         logoutButton = findViewById(R.id.logoutButton);
+        myPostsButton = findViewById(R.id.myPostsButton);
         feedRecyclerView = findViewById(R.id.feedRecyclerView);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         postAdapter = new PostAdapter(postsList, this);
@@ -101,6 +103,10 @@ public class FeedActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        });
+        myPostsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(FeedActivity.this, MyPostsActivity.class);
+            startActivity(intent);
         });
 
         fetchPosts(currentPage ,pageSize);

@@ -5,7 +5,10 @@ import com.example.car_spotting_front_end.dto.LoginRequestDTO;
 
 import com.example.car_spotting_front_end.dto.RegisterRequestDTO;
 import com.example.car_spotting_front_end.dto.PostRequestDTO;
+import com.example.car_spotting_front_end.dto.UserPostsWithReactionsDTO;
 import com.example.car_spotting_front_end.retrofit.ApiResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,6 +30,9 @@ public interface ApiServices {
             @Query("page") int page,
             @Query("size") int size
     );
+
+    @GET("posts/myposts")
+    Call <List<UserPostsWithReactionsDTO>> getMyPosts();
     @PUT("posts/{postId}/upvote")
     Call<ApiResponse> likePost(@Path("postId") long postId);
     @PUT("posts/{postId}/downvote")

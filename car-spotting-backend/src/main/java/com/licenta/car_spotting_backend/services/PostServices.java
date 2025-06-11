@@ -2,6 +2,8 @@ package com.licenta.car_spotting_backend.services;
 
 import com.licenta.car_spotting_backend.dto.JsonResponse;
 import com.licenta.car_spotting_backend.dto.PostDetailsDTO;
+import com.licenta.car_spotting_backend.dto.UserPostWithReactionsDTO;
+import com.licenta.car_spotting_backend.enums.ReactionType;
 import com.licenta.car_spotting_backend.model.Post;
 import com.licenta.car_spotting_backend.model.User;
 import com.licenta.car_spotting_backend.repository.PostRepository;
@@ -17,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,6 +47,29 @@ public class PostServices {
         org.springframework.hateoas.PagedModel<EntityModel<PostDetailsDTO>> pagedModel = pagedResourcesAssembler.toModel(postDetailsPage);
 
         return pagedModel;
+    }
+
+    public List<UserPostWithReactionsDTO> getUserPosts(Long userId){
+        List<Post> posts = postRepository.findPostsByUserId(userId);
+        List<UserPostWithReactionsDTO> result = new ArrayList<>();
+
+        for(Post post : posts){
+            List<String> likes_name = postRepository.findUsernamesByPostIdAndReactionType(post.getId(), ReactionType.LIKE);
+            List<String> dislikes_name = postRepository.findUsernamesByPostIdAndReactionType(post.getId(), ReactionType.DISLIKE);
+
+            UserPostWithReactionsDTO dto = new UserPostWithReactionsDTO(
+                    post.getId(),
+                    post.getScore(),
+                    post.getCar().getMake(),
+                    post.getCar().getModel(),
+                    post.getCar().getYear(),
+                    post.getCar().getImagePath(),
+                    likes_name,
+                    dislikes_name
+            );
+            result.add(dto);
+        }
+        return result;
     }
 
     public JsonResponse upvotePost(Long postId){

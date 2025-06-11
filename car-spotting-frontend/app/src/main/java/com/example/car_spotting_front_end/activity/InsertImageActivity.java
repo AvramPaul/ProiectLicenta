@@ -126,7 +126,7 @@ public class InsertImageActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-                    }, 2000); // 2000 milliseconds = 2 seconds
+                    }, 4000); // 2000 milliseconds = 2 seconds
 
                 } else {
                     Toast.makeText(InsertImageActivity.this, "Upload failed!", Toast.LENGTH_SHORT).show();
