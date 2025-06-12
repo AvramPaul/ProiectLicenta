@@ -1,6 +1,7 @@
 package com.example.car_spotting_front_end.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,8 +9,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -37,6 +40,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class InsertImageActivity extends AppCompatActivity {
+
+    private LinearLayout myPostsButton;
+    private LinearLayout logoutButton;
+    private LinearLayout feedButton;
+    private TextView profilePicture;
+
+    private boolean pannelVisible = false;
+
+    private LinearLayout sidePanel;
     private MaterialButton selectImageButton;
     private MaterialButton uploadImageButton;
     private ImageView imagePreview;
@@ -61,6 +73,11 @@ public class InsertImageActivity extends AppCompatActivity {
     }
 
     private void initializeComponents() {
+        myPostsButton = findViewById(R.id.myPostsButton);
+        logoutButton = findViewById(R.id.logoutButton);
+        feedButton = findViewById(R.id.feedButton);
+        profilePicture = findViewById(R.id.profileButton);
+        sidePanel = findViewById(R.id.sidePanel);
         selectImageButton = findViewById(R.id.selectImageButton);
         uploadImageButton = findViewById(R.id.uploadImageButton);
         imagePreview = findViewById(R.id.imagePreview);
@@ -73,6 +90,41 @@ public class InsertImageActivity extends AppCompatActivity {
             mp.setLooping(true);
             mp.setVolume(0f, 0f);
             videoView.start();
+        });
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        String username = prefs.getString("logged_username", "");
+        profilePicture.setText(username.substring(0, 1));
+
+        profilePicture.setOnClickListener(view -> {
+            if (!pannelVisible) {
+                sidePanel.setVisibility(View.VISIBLE);
+                sidePanel.animate().translationX(0).setDuration(300);
+                pannelVisible = true;
+            } else {
+                sidePanel.animate().translationX(80).setDuration(300);
+                sidePanel.setVisibility(View.GONE);
+                pannelVisible = false;
+            }
+        });
+        myPostsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(InsertImageActivity.this, MyPostsActivity.class);
+            startActivity(intent);
+        });
+
+        logoutButton.setOnClickListener(view -> {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("logged_username");
+            editor.remove("jwt_token");
+            editor.apply();
+            Intent intent = new Intent(InsertImageActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+        feedButton.setOnClickListener(view -> {
+            Intent intent = new Intent(InsertImageActivity.this, FeedActivity.class);
+            startActivity(intent);
         });
 
         selectImageButton.setOnClickListener(view -> {
@@ -126,7 +178,7 @@ public class InsertImageActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-                    }, 4000); // 2000 milliseconds = 2 seconds
+                    }, 15000);
 
                 } else {
                     Toast.makeText(InsertImageActivity.this, "Upload failed!", Toast.LENGTH_SHORT).show();

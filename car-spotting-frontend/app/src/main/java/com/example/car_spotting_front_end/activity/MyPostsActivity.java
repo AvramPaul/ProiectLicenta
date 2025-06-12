@@ -1,7 +1,12 @@
 package com.example.car_spotting_front_end.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +30,15 @@ import retrofit2.Retrofit;
 
 public class MyPostsActivity extends AppCompatActivity {
 
+    private LinearLayout createPostButton;
+    private LinearLayout logoutButton;
+    private LinearLayout feedButton;
+    private TextView profilePicture;
+
+    private boolean pannelVisible = false;
+
+    private LinearLayout sidePanel;
+
     private RecyclerView recyclerView;
     private MyPostsAdapter adapter;
     private List<UserPostsWithReactionsDTO> myPostsList = new ArrayList<>();
@@ -39,6 +53,11 @@ public class MyPostsActivity extends AppCompatActivity {
     }
 
     private void initializeComponents() {
+        createPostButton = findViewById(R.id.addPostButton);
+        logoutButton = findViewById(R.id.logoutButton);
+        feedButton = findViewById(R.id.feedButton);
+        profilePicture = findViewById(R.id.profileButton);
+        sidePanel = findViewById(R.id.sidePanel);
         recyclerView = findViewById(R.id.recycleViewMyPosts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyPostsAdapter(myPostsList, this);
@@ -52,11 +71,45 @@ public class MyPostsActivity extends AppCompatActivity {
             mp.setVolume(0f, 0f);
             videoView.start();
         });
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        String username = prefs.getString("logged_username", "");
+        profilePicture.setText(username.substring(0, 1));
+
+        profilePicture.setOnClickListener(view -> {
+            if (!pannelVisible) {
+                sidePanel.setVisibility(View.VISIBLE);
+                sidePanel.animate().translationX(0).setDuration(300);
+                pannelVisible = true;
+            } else {
+                sidePanel.animate().translationX(80).setDuration(300);
+                sidePanel.setVisibility(View.GONE);
+                pannelVisible = false;
+            }
+        });
+        createPostButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MyPostsActivity.this, InsertImageActivity.class);
+            startActivity(intent);
+        });
+
+        logoutButton.setOnClickListener(view -> {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("logged_username");
+            editor.remove("jwt_token");
+            editor.apply();
+            Intent intent = new Intent(MyPostsActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+        feedButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MyPostsActivity.this, FeedActivity.class);
+            startActivity(intent);
+        });
+
     }
     private void fetchMyPosts() {
-        //ApiServices apiServices = RetrofitClient.getClient(this).create(ApiServices.class);
-        //Call<List<UserPostsWithReactionsDTO>> call = apiServices.getMyPosts();
-        //call.enqueue(new Callback<List<UserPostsWithReactionsDTO>>(){
+
         Retrofit retrofit = RetrofitClient.getClient(this);
         ApiServices apiServices = retrofit.create(ApiServices.class);
         apiServices.getMyPosts().enqueue(new Callback<List<UserPostsWithReactionsDTO>>() {
