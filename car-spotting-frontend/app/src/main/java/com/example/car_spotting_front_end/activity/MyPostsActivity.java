@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.car_spotting_front_end.R;
-import com.example.car_spotting_front_end.Response.PostsResponse;
 import com.example.car_spotting_front_end.dto.MyPostsAdapter;
 import com.example.car_spotting_front_end.dto.UserPostsWithReactionsDTO;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.car_spotting_front_end.R;
-import com.example.car_spotting_front_end.Response.PostsResponse;
+import com.example.car_spotting_front_end.dto.PostsResponse;
 import com.example.car_spotting_front_end.dto.PostAdapter;
 import com.example.car_spotting_front_end.model.Post;
 import com.example.car_spotting_front_end.services.ApiServices;

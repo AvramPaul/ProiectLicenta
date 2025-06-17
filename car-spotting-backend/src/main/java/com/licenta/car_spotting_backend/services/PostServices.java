@@ -34,7 +34,12 @@ public class PostServices {
     @Autowired
     private PostReactionService postReactionService;
 
-    public PagedModel<EntityModel<PostDetailsDTO>> getAllPosts(int page, int size, String sortBy, String sortDirection, PagedResourcesAssembler<PostDetailsDTO> pagedResourcesAssembler ){
+    public PagedModel<EntityModel<PostDetailsDTO>> getAllPosts(int page,
+                                                               int size,
+                                                               String sortBy,
+                                                               String sortDirection,
+                                                               PagedResourcesAssembler<PostDetailsDTO> pagedResourcesAssembler ){
+
         Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ?
                 Sort.Direction.DESC : Sort.Direction.ASC;
         PageRequest pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
@@ -74,9 +79,9 @@ public class PostServices {
 
     public JsonResponse upvotePost(Long postId){
 
-        Optional<Post> optionalPost = postRepository.findById(postId); //aici verificam daca id-ul postarii din URL exista
-        if(optionalPost.isPresent()) { //daca exista
-            Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if(optionalPost.isPresent()) {
+            Post post = optionalPost.get();
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if (postReactionService.upvotePost(post, user)){
                 return JsonResponse.create(200, "Like la postare");
@@ -89,9 +94,9 @@ public class PostServices {
     }
 
     public JsonResponse downvotePost(Long postId){
-        Optional<Post> optionalPost = postRepository.findById(postId); //aici verificam daca id-ul postarii din URL exista
-        if(optionalPost.isPresent()){ //daca exista
-            Post post = optionalPost.get(); //trebuie sa facem un obiect post nu merge cu obiectul optional
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if(optionalPost.isPresent()){
+            Post post = optionalPost.get();
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(postReactionService.downvotePost(post, user) ){
                 return JsonResponse.create(200, "Dislike la postare");

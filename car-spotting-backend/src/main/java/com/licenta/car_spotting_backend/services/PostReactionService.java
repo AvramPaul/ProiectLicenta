@@ -35,7 +35,7 @@ public class PostReactionService {
                 post.setScore(post.getScore()-1);
                 postRepository.save(post);
                 return false;
-            }else if(postReaction.get().getReactionType() == DISLIKE){ //A doua situatie: Am dat o data dislike, deci daca apasam iar se v-a sterge dislike-ul si se v-a pune like
+            }else if(postReaction.get().getReactionType() == DISLIKE){ //A doua situatie: Am dat o data dislike, deci daca apasam like se v-a sterge dislike-ul si se v-a pune like
                 postReaction.get().setReactionType(LIKE);
                 post.setScore(post.getScore() + 2);
                 postRepository.save(post);

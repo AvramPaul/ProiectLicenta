@@ -31,13 +31,12 @@ public class UploadServices {
         Path path = Paths.get(uploadDir + filename);
         Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-        // Nu encodezi path-ul dacă nu îl trimiți prin URL. DOAR îl folosești local:
+
         String fullPath = uploadDir + filename;
 
-        // Apelezi direct serviciul Spring
+
         ClassifyingResponse classifyingResponse = classifierService.runPythonScript(fullPath);
 
-        // Creezi obiectele din baza de date
         Car car = new Car();
         car.setImagePath(filename);
         car.setMake(classifyingResponse.getCarMake());

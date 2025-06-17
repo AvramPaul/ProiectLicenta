@@ -67,7 +67,6 @@ public class ClassifierService {
                     }
                 }
 
-                // If no multi-word make matched, default to one-word make
                 if (carMake.isEmpty() && words.length >= 3) {
                     carMake = words[0];
                     StringBuilder modelBuilder = new StringBuilder();
@@ -75,14 +74,12 @@ public class ClassifierService {
                         modelBuilder.append(words[i]).append(" ");
                     }
                     carModel = modelBuilder.toString().trim();
-
                     try {
                         carYear = Integer.parseInt(words[words.length - 1]);
                     } catch (NumberFormatException e) {
                         carYear = 0;
                     }
                 }
-
                 response.setCarMake(carMake);
                 response.setCarModel(carModel);
                 response.setCarYear(carYear);
@@ -96,10 +93,7 @@ public class ClassifierService {
                         response.setConfidence(0); // fallback or handle as needed
                     }
                 }
-                
-
             process.waitFor();
-
             return response;
         } catch (Exception e) {
             e.printStackTrace();

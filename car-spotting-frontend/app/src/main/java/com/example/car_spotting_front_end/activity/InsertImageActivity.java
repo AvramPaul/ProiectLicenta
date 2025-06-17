@@ -3,6 +3,8 @@ package com.example.car_spotting_front_end.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,9 +28,20 @@ import com.example.car_spotting_front_end.R;
 import com.example.car_spotting_front_end.dto.ClassifiyngResponseDTO;
 import com.example.car_spotting_front_end.retrofit.RetrofitClient;
 import com.example.car_spotting_front_end.services.ImageUploadService;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -53,7 +66,8 @@ public class InsertImageActivity extends AppCompatActivity {
     private MaterialButton uploadImageButton;
     private ImageView imagePreview;
     private Uri selectedImageUri;
-    private TextView classifierResponseText;
+    private TextView textMake, textModel, textYear;
+    private BarChart confidenceChart;
     private VideoView videoView;
 
     private final ActivityResultLauncher<String> imagePickerLauncher =
@@ -81,7 +95,10 @@ public class InsertImageActivity extends AppCompatActivity {
         selectImageButton = findViewById(R.id.selectImageButton);
         uploadImageButton = findViewById(R.id.uploadImageButton);
         imagePreview = findViewById(R.id.imagePreview);
-        classifierResponseText = findViewById(R.id.classifierResponseText);
+        textMake = findViewById(R.id.textMake);
+        textModel = findViewById(R.id.textModel);
+        textYear = findViewById(R.id.textYear);
+        confidenceChart = findViewById(R.id.confidenceChart);
         videoView = findViewById(R.id.backgroudVideoView);
 
         String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_mooving_video;
@@ -160,12 +177,56 @@ public class InsertImageActivity extends AppCompatActivity {
             public void onResponse(Call<ClassifiyngResponseDTO> call, Response<ClassifiyngResponseDTO> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     ClassifiyngResponseDTO ClassifiyngResponseDTO = response.body();
-                    String responseMessage = "Car Make: " + ClassifiyngResponseDTO.getCarMake() + "\n" +
-                            "Car Model: " + ClassifiyngResponseDTO.getCarModel() + "\n" +
-                            "Car Year: " + ClassifiyngResponseDTO.getCarYear() + "\n" +
-                            "Confidence: " + ClassifiyngResponseDTO.getConfidence() + "%";
 
-                    classifierResponseText.setText(responseMessage);
+                    textMake.setText(ClassifiyngResponseDTO.getCarMake());
+                    textModel.setText(ClassifiyngResponseDTO.getCarModel());
+                    textYear.setText(String.valueOf(ClassifiyngResponseDTO.getCarYear()));
+
+                    List<BarEntry> entries = new ArrayList<>();
+                    entries.add(new BarEntry(0f, (float) ClassifiyngResponseDTO.getConfidence()));
+
+                    BarDataSet set = new BarDataSet(entries, "Confidence (%) ");
+                    set.setDrawValues(true);
+                    set.setValueTextSize(12f);
+                    set.setValueTextColor(Color.WHITE);
+                    set.setValueTypeface(Typeface.DEFAULT_BOLD);
+
+                    Legend legend = confidenceChart.getLegend();
+                    legend.setEnabled(true);
+                    legend.setTextColor(Color.WHITE);
+                    legend.setTypeface(Typeface.DEFAULT_BOLD);
+                    legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+                    legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+                    legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+                    legend.setDrawInside(false);
+                    legend.setTextSize(22f);
+
+                    BarData data = new BarData(set);
+                    data.setBarWidth(0.5f);
+
+                    confidenceChart.setData(data);
+
+                    XAxis xAxis = confidenceChart.getXAxis();
+                    xAxis.setValueFormatter(new IndexAxisValueFormatter(Collections.singletonList(ClassifiyngResponseDTO.getCarMake() + " " + ClassifiyngResponseDTO.getCarModel() + " " + ClassifiyngResponseDTO.getCarYear())));
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    xAxis.setDrawGridLines(false);
+                    xAxis.setGranularity(1f);
+                    xAxis.setLabelCount(1);
+                    xAxis.setTextColor(Color.WHITE);
+                    xAxis.setTypeface(Typeface.DEFAULT_BOLD);
+
+                    confidenceChart.getAxisRight().setEnabled(false);
+                    confidenceChart.getDescription().setEnabled(false);
+                    confidenceChart.getLegend().setEnabled(true);
+                    confidenceChart.setFitBars(true);
+
+                    confidenceChart.setBackgroundColor(getResources().getColor(android.R.color.black));
+                    confidenceChart.getAxisLeft().setTextColor(Color.WHITE);
+                    confidenceChart.getAxisLeft().setTypeface(Typeface.DEFAULT_BOLD);
+
+                    confidenceChart.getAxisLeft().setTextColor(Color.WHITE);
+                    confidenceChart.getAxisLeft().setTypeface(Typeface.DEFAULT_BOLD);
+                    confidenceChart.invalidate();
 
                     Toast.makeText(InsertImageActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
 
@@ -178,7 +239,7 @@ public class InsertImageActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-                    }, 15000);
+                    }, 100000);
 
                 } else {
                     Toast.makeText(InsertImageActivity.this, "Upload failed!", Toast.LENGTH_SHORT).show();

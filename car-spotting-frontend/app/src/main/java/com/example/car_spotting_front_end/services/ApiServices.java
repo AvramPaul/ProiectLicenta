@@ -1,6 +1,6 @@
 package com.example.car_spotting_front_end.services;
 
-import com.example.car_spotting_front_end.Response.PostsResponse;
+import com.example.car_spotting_front_end.dto.PostsResponse;
 import com.example.car_spotting_front_end.dto.LoginRequestDTO;
 
 import com.example.car_spotting_front_end.dto.RegisterRequestDTO;
@@ -21,10 +21,13 @@ import retrofit2.http.Query;
 public interface ApiServices {
     @POST("posts/create")
     Call<ApiResponse> createPost(@Body PostRequestDTO postRequestDTO);
+
     @POST("auth/login")
     Call<ApiResponse> loginRequest(@Body LoginRequestDTO loginRequestDTO);
+
     @POST("auth/register")
     Call<ApiResponse> registerRequest(@Body RegisterRequestDTO registerRequestDTO);
+
     @GET("posts/feed")
     Call<PostsResponse> getPosts(
             @Query("page") int page,
@@ -33,8 +36,10 @@ public interface ApiServices {
 
     @GET("posts/myposts")
     Call <List<UserPostsWithReactionsDTO>> getMyPosts();
+
     @PUT("posts/{postId}/upvote")
     Call<ApiResponse> likePost(@Path("postId") long postId);
+
     @PUT("posts/{postId}/downvote")
     Call<ApiResponse> dislikePost(@Path("postId") long postId);
 }

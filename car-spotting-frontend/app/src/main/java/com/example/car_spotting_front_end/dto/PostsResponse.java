@@ -1,4 +1,4 @@
-package com.example.car_spotting_front_end.Response;
+package com.example.car_spotting_front_end.dto;
 
 import com.example.car_spotting_front_end.model.Post;
 import com.google.gson.annotations.SerializedName;
