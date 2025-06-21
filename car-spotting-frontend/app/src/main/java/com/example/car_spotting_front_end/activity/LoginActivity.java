@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.login_buttonLogin);
         buttonRegister = findViewById(R.id.buttonRegister);
         VideoView videoView = findViewById(R.id.backgroundVideoView);
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_drift_video;
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_mooving_car;
         videoView.setVideoURI(Uri.parse(videoPath));
         videoView.setOnPreparedListener(mp -> {
             mp.setLooping(true);

@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.form_buttonLogin);
         buttonRegister = findViewById(R.id.form_buttonRegister);
         videoView = findViewById(R.id.backgroudVideoView);
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_drift_video;
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_mooving_car;
         videoView.setVideoURI(Uri.parse(videoPath));
         videoView.setOnPreparedListener(mp -> {
             mp.setLooping(true);

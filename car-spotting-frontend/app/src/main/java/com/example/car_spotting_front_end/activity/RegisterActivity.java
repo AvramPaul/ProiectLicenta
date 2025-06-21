@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         usernameLayout = findViewById(R.id.usernameLayout);
         passwordLayout = findViewById(R.id.passwordLayout);
         VideoView videoView = findViewById(R.id.backgroundVideoView);
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_drift_video;
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.bg_mooving_car;
         videoView.setVideoURI(Uri.parse(videoPath));
         videoView.setOnPreparedListener(mp -> {
             mp.setLooping(true);

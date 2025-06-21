@@ -41,7 +41,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.MyPostVi
         holder.carMakeTextView.setText(post.getCarMake());
         holder.carModelTextView.setText(post.getCarModel());
         holder.carYearTextView.setText(String.valueOf(post.getCarYear()));
-        holder.scoreTextView.setText(String.valueOf(post.getScore()));
+        holder.scoreTextView.setText("Score: "+ String.valueOf((int)post.getScore()));
 
         String imageUrl = "http://10.0.2.2:8081/posts/images/" + post.getCarImagePath();
         Glide.with(context)

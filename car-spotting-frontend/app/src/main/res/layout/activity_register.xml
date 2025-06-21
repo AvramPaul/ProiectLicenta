@@ -126,7 +126,8 @@
             android:text="Already have an account? Log in"
             android:textAllCaps="false"
             android:textColor="#FF0000"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

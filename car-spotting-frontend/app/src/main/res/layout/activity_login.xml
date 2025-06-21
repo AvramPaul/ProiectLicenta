@@ -102,7 +102,8 @@
             android:layout_marginTop="16dp"
             android:text="You don’t have an account? Register here"
             android:textAllCaps="false"
-            android:textColor="@android:color/holo_red_light"/>
+            android:textColor="@android:color/holo_red_light"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
