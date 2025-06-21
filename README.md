@@ -1,6 +1,6 @@
 # Social Media Application for Car Spotting and Automatic Recognition of Cars Using AI Model
   The application named **"Car Spotting AI"** is a mobile app for **Android** that integrates the AI model **ResNet18** for classifying car images by make, model and year. This is a social media style platform where users can create an account, log in, and create their posts about cars. Each uploaded photo is automatically classified and displayed in a public feed visible to all users. Users can react to others posts, also see their own posts and who liked or disliked them.
-  The backend is implemented using **Spring Boot** in the IDE **IntelliJ Idea**, connected to the MySql database. The front-end is developed in **Android Studio**, using the programming language Java. The app is tested using the **AVD Manager**, with a **Pixel 9** emulator.
+  The backend is implemented using **Spring Boot** in the IDE **IntelliJ Idea**, connected to the MySql database. The front-end is developed in **Android Studio**, using the programming language Java. The app is tested using the **AVD Manager**, with a **Pixel 6** emulator.
 
   ## Installation Guide
   
@@ -32,4 +32,4 @@
         spring.datasource.password=your_password
   4. Run Android App
      * Open in  `car-spotting-frontend` Android Studio
-     * Use AVD Manager in Android Studio to download and run the **Pixel 9** emulator
+     * Use AVD Manager in Android Studio to download and run the **Pixel 6** emulator
